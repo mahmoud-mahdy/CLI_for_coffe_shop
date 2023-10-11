@@ -4,5 +4,5 @@ John
 Sally
 John
 Sally
-Michel
+mick
 John
