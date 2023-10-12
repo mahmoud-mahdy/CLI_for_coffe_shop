@@ -1,12 +1,6 @@
-order = [1,2,3,1,2,3,1,2,3,4]
-max_e = 2
-count = {}
-list = []
-for i in order:
-    if i in count:
-        count[i] += 1
-    else:
-        count[i] = 1
-    if max_e >= count[i]:
-        list.append(i)
-print(list)
+n = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
+x = "".join(map(str, n[:3]))
+
+s = "(" + "".join(map(str, n[:3])) + ") " + "".join(map(str, n[3:6])) + "-" + "".join(map(str, n[6:]))
+print (s)
