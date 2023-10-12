@@ -1,1 +1,1 @@
-creating system to create and track orders for a coffe shop # generation-projects
+system to create and track orders for a coffee shop # generation-projects
