@@ -1,17 +1,19 @@
 import json
 import time
  
-#import courier, orders and products lists.
+#import orders list
 with open("orders_list.json", 'r') as file:
     orders_list = json.load(file)
-
+    
+#import products list
 with open("products_list.json", 'r') as file:
     products_list = json.load(file)
     
+#import courier list
 with open("courier_list.json", 'r') as file:
     courier_list = json.load(file)
 
-
+# display main menu
 def main_menu():
     print("""
     Coffe Shop Menu
@@ -22,7 +24,7 @@ def main_menu():
     0- Exit app 
           """)
 
-# 1- Product menu
+# display Product menu
 def product_menu():
     print("""
     Products Menu
@@ -34,7 +36,7 @@ def product_menu():
     0- Return to Main menu
     """)
 
-# 2- couriers menu    
+# display couriers menu    
 def courier_menu():
     print("""
     courier Menu
@@ -46,7 +48,7 @@ def courier_menu():
     0- Return to Main menu
           """)
 
-# 3- Orders menu    
+# display Orders menu    
 def orders_menu():
     print("""
     Orders Menu
@@ -179,7 +181,6 @@ while True:
                         print("Invalid input. Please enter a valid courier number.")
                         time.sleep(1)
             
-            
             # delete courier
             elif customer_input =="4":
                 valid_options.clear()
@@ -213,7 +214,7 @@ while True:
             orders_menu()
             customer_input = input("Please select an option: ")
  
-            #create new order    
+            #3- 1- create new order    
             if customer_input == "1":
                 customer_name = input("Please enter the customer name: ")
                 customer_address = input("Please enter the customer address: ")
@@ -228,7 +229,7 @@ while True:
                 print("Order added to the list successfully")
                 time.sleep(1)
                 
-            # Show order list
+            #3- 2- Show order list
             elif customer_input == "2":
                 print("\nOrder List")
                 print("=" * 50)
@@ -241,7 +242,7 @@ while True:
                     print("-" * 50)
                 input("\nPress Enter to go to the main menu.")
 
-            #update order status
+            #3- 3- update order status
             elif customer_input == "3":
                 print("\nOrder List")
                 print("=" * 50)
@@ -264,7 +265,7 @@ while True:
                 print("Order status updated successfully")
                 time.sleep(1)
             
-            #UPDATE order
+            #3- 4- UPDATE order
             elif customer_input == "4":
                 print("\nOrder List")
                 print("=" * 50)
@@ -291,7 +292,7 @@ while True:
                 print("Order updated successfully")
                 time.sleep(1)
                 
-            #delete order
+            #3- 5- delete order
             elif customer_input == "5":
                 print("\nOrder List")
                 print("=" * 50)
@@ -309,7 +310,7 @@ while True:
                 time.sleep(1)
                 
                 
-            # Return to main menu
+            #3- 0- Return to main menu
             elif customer_input == "0":
                 break
             
@@ -325,12 +326,14 @@ while True:
         time.sleep(1)
 
 
-#save changes to files
+#save changes to products_list
 with open("products_list.json", 'w') as file:
     json.dump(products_list, file)
-        
+
+#save changes to orders_list  
 with open("orders_list.json", 'w') as file:
     json.dump(orders_list, file)
-
+    
+#save changes to courier_list
 with open("courier_list.json", 'w') as file:
     json.dump(courier_list, file)

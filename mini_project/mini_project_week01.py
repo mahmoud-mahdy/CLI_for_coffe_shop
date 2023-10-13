@@ -1,6 +1,5 @@
 import time
 
-
 product_list = [
     "Espresso",
     "Americano",
@@ -8,7 +7,6 @@ product_list = [
     "Cappuccino",
     "Macchiato",
 ]
-
 
 def main_menu():
     print("""
@@ -80,6 +78,7 @@ while True:
                     else:
                         print("Invalid input. Please enter a valid product number.")
                         time.sleep(1)
+            
             #delete product
             elif customer_input == "4":
                 options.clear()
