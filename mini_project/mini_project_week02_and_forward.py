@@ -1,13 +1,15 @@
 import json
 import time
  
-#import orders and products lists.
+#import courier, orders and products lists.
 with open("orders_list.json", 'r') as file:
     orders_list = json.load(file)
 
-
 with open("products_list.json", 'r') as file:
     products_list = json.load(file)
+    
+with open("courier_list.json", 'r') as file:
+    courier_list = json.load(file)
 
 
 def main_menu():
@@ -19,7 +21,8 @@ def main_menu():
     3- Orders menu
     0- Exit app 
           """)
-    
+
+# 1- Product menu
 def product_menu():
     print("""
     Products Menu
@@ -30,7 +33,8 @@ def product_menu():
     4- Delete a product
     0- Return to Main menu
     """)
-    
+
+# 2- couriers menu    
 def courier_menu():
     print("""
     courier Menu
@@ -41,7 +45,8 @@ def courier_menu():
     4- Delete a courier
     0- Return to Main menu
           """)
-    
+
+# 3- Orders menu    
 def orders_menu():
     print("""
     Orders Menu
@@ -65,7 +70,7 @@ while True:
         print("App closed.")
         break
     
-    #open products menu
+    # 1- open products menu
     elif customer_input == "1":        
         while True:
             product_menu()
@@ -133,13 +138,76 @@ while True:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
 
-    #couriers menu
+    # 2- couriers menu
     elif customer_input == "2":
         while True:
             courier_menu()
             customer_input = input("Please select an option: ")
-    
-    #open orders menu
+            
+            # creat new courier
+            if customer_input =="1":
+                new_courier= input("please enter the new courier: ")
+                courier_list.append(new_courier)
+                print(f"{new_courier} added successfully.")
+                time.sleep(1)
+            
+            # print couriers list
+            elif customer_input =="2":
+                print("\n    couriers List\n    =============")
+                for index, courier in enumerate(courier_list, start=1):
+                    print(f"    {index}- {courier}")
+                input("\npress enter to go to main menu.")
+            
+            #rename courier
+            elif customer_input == "3":
+                valid_options.clear()
+                print("\n    courier List\n    ============")
+                for index, courier in enumerate(courier_list, start=1):
+                    print(f"    {index}- {courier}")
+                    valid_options.append(index)
+                    
+                while True:
+                    edit_index_courier = int(input("\nplease write the courier number you want to rename: "))
+                    
+                    if edit_index_courier in valid_options:
+                            edit_name_courier = input("please write the new name for the courier:")
+                            courier_list[edit_index_courier - 1] = (f"{edit_name_courier}")
+                            print("courier name updated successfully.")
+                            time.sleep(1)
+                            break
+                    else:
+                        print("Invalid input. Please enter a valid courier number.")
+                        time.sleep(1)
+            
+            
+            # delete courier
+            elif customer_input =="4":
+                valid_options.clear()
+                print("\n    couriers List\n    =============")
+                for index, courier in enumerate(courier_list, start=1):
+                    print(f"    {index}- {courier}")
+                    valid_options.append(index)
+                while True:
+                    delete_index_product = int(input("please write the courier number: "))
+                    if delete_index_product in valid_options:
+                        del courier_list[delete_index_product - 1]
+                        print("courier deleted successfully.")
+                        time.sleep(1)
+                        break
+                    else:
+                        print("Invalid input. Please enter a valid product number.")
+                        time.sleep(1)
+                
+            # Return to main menu
+            elif customer_input == "0":
+                break
+            
+            #invalid input
+            else:
+                print("invalid option. please select a number from the options above")
+                time.sleep(1)
+            
+    #3- open orders menu
     elif customer_input == "3":
         while True:
             orders_menu()
@@ -249,16 +317,20 @@ while True:
             else:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
-        
+
+
     #invalid input
     else:
         print("invalid option. please select a number from the options above")
         time.sleep(1)
 
 
-#save chnages to files
+#save changes to files
 with open("products_list.json", 'w') as file:
     json.dump(products_list, file)
         
 with open("orders_list.json", 'w') as file:
     json.dump(orders_list, file)
+
+with open("courier_list.json", 'w') as file:
+    json.dump(courier_list, file)
