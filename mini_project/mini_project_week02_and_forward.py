@@ -1,39 +1,22 @@
+import json
 import time
+ 
+#import orders and products lists.
+with open("orders_list.json", 'r') as file:
+    orders_list = json.load(file)
 
-valid_options = []
 
-product_list = [
-    "Espresso",
-    "Americano",
-    "Latte",
-    "Cappuccino",
-    "Macchiato",
-]
+with open("products_list.json", 'r') as file:
+    products_list = json.load(file)
 
-orders_list = [{"customer_name": "John",
-                "customer_address": "Unit 2, 12 Main Street, LONDON, WH1 2ER",
-                "customer_phone": "0789887334",
-                "status": "preparing"}, 
-               {"customer_name": "Alice",
-                "customer_address": "Apt 3B, 45 Elm Avenue, NEW YORK, NY 10001",
-                "customer_phone": "212-555-7890", 
-                "status": "pending"},
-               {"customer_name": "Michael",
-                "customer_address": "123 Oak Street, SAN FRANCISCO, CA 94101",
-                "customer_phone": "415-123-4567",
-                "status": "shipped"},
-               {"customer_name": "Emily",
-                "customer_address": "789 Maple Lane, LOS ANGELES, CA 90001",
-                "customer_phone": "323-555-1234",
-                "status": "delivered"}
-               ]
 
 def main_menu():
     print("""
     Coffe Shop Menu
     ===============
     1- Product menu
-    2- Orders menu
+    2- couriers menu
+    3- Orders menu
     0- Exit app 
           """)
     
@@ -48,6 +31,17 @@ def product_menu():
     0- Return to Main menu
     """)
     
+def courier_menu():
+    print("""
+    courier Menu
+    ============ 
+    1- Create new courier
+    2- Couriers list
+    3- Update an existing courier
+    4- Delete a courier
+    0- Return to Main menu
+          """)
+    
 def orders_menu():
     print("""
     Orders Menu
@@ -60,7 +54,7 @@ def orders_menu():
     0- Return to Main menu
     """)
     
-
+valid_options = []
 while True:
     #printing the menu and taking input
     main_menu()
@@ -80,14 +74,14 @@ while True:
             # creat new product
             if customer_input == "1":
                 new_product = input("please enter the new product: ")
-                product_list.append(new_product)
+                products_list.append(new_product)
                 print(f"{new_product} added successfully.")
                 time.sleep(1)
                 
             #show product list
             elif customer_input == "2":
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(product_list, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                 input("\npress enter to go to main menu.")
             
@@ -95,7 +89,7 @@ while True:
             elif customer_input == "3":
                 valid_options.clear()
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(product_list, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
                     
@@ -104,7 +98,7 @@ while True:
                     
                     if edit_index_product in valid_options:
                             edit_name_product = input("please write the new name for the product:")
-                            product_list[edit_index_product - 1] = (f"{edit_name_product}")
+                            products_list[edit_index_product - 1] = (f"{edit_name_product}")
                             print("Product name updated successfully.")
                             time.sleep(1)
                             break
@@ -116,13 +110,13 @@ while True:
             elif customer_input == "4":
                 valid_options.clear()
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(product_list, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
                 while True:
                     delete_index_product = int(input("please write the product number: "))
                     if delete_index_product in valid_options:
-                        del product_list[delete_index_product - 1]
+                        del products_list[delete_index_product - 1]
                         print("Product deleted successfully.")
                         time.sleep(1)
                         break
@@ -139,8 +133,14 @@ while True:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
 
-    #open orders menu
+    #couriers menu
     elif customer_input == "2":
+        while True:
+            courier_menu()
+            customer_input = input("Please select an option: ")
+    
+    #open orders menu
+    elif customer_input == "3":
         while True:
             orders_menu()
             customer_input = input("Please select an option: ")
@@ -254,3 +254,11 @@ while True:
     else:
         print("invalid option. please select a number from the options above")
         time.sleep(1)
+
+
+#save chnages to files
+with open("products_list.json", 'w') as file:
+    json.dump(products_list, file)
+        
+with open("orders_list.json", 'w') as file:
+    json.dump(orders_list, file)
