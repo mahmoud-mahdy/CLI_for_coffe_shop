@@ -99,16 +99,23 @@ while True:
                 for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
+                print(f"    {0}- Cancel")
                     
                 while True:
                     edit_index_product = int(input("\nplease write the product number you want to rename: "))
+                    #cancel edit
+                    if edit_index_product == 0:
+                        print("edit has been cancelled")
+                        time.sleep(1)
+                        break
                     
-                    if edit_index_product in valid_options:
-                            edit_name_product = input("please write the new name for the product:")
-                            products_list[edit_index_product - 1] = (f"{edit_name_product}")
-                            print("Product name updated successfully.")
-                            time.sleep(1)
-                            break
+                    elif edit_index_product in valid_options:
+                        edit_name_product = input("please write the new name for the product:")
+                        products_list[edit_index_product - 1] = (f"{edit_name_product}")
+                        print("Product name updated successfully.")
+                        time.sleep(1)
+                        break
+                        
                     else:
                         print("Invalid input. Please enter a valid product number.")
                         time.sleep(1)
@@ -120,9 +127,18 @@ while True:
                 for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
+                print(f"    {0}- Cancel")    
+                    
                 while True:
                     delete_index_product = int(input("please write the product number: "))
-                    if delete_index_product in valid_options:
+                    
+                    #cancel edit
+                    if delete_index_product == 0:
+                        print("deleting has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif delete_index_product in valid_options:
                         del products_list[delete_index_product - 1]
                         print("Product deleted successfully.")
                         time.sleep(1)
@@ -167,11 +183,18 @@ while True:
                 for index, courier in enumerate(courier_list, start=1):
                     print(f"    {index}- {courier}")
                     valid_options.append(index)
-                    
+                print(f"    {0}- Cancel")
+                
                 while True:
                     edit_index_courier = int(input("\nplease write the courier number you want to rename: "))
                     
-                    if edit_index_courier in valid_options:
+                    #cancel edit
+                    if edit_index_courier == 0:
+                        print("edit has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif edit_index_courier in valid_options:
                             edit_name_courier = input("please write the new name for the courier:")
                             courier_list[edit_index_courier - 1] = (f"{edit_name_courier}")
                             print("courier name updated successfully.")
@@ -188,9 +211,18 @@ while True:
                 for index, courier in enumerate(courier_list, start=1):
                     print(f"    {index}- {courier}")
                     valid_options.append(index)
+                print(f"    {0}- cancel")
+                
                 while True:
                     delete_index_product = int(input("please write the courier number: "))
-                    if delete_index_product in valid_options:
+                    
+                    #cancel edit
+                    if delete_index_product == 0:
+                        print("deleting has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif delete_index_product in valid_options:
                         del courier_list[delete_index_product - 1]
                         print("courier deleted successfully.")
                         time.sleep(1)
@@ -246,6 +278,7 @@ while True:
             elif customer_input == "3":
                 print("\nOrder List")
                 print("=" * 50)
+                valid_options.clear()
                 for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
@@ -253,22 +286,39 @@ while True:
                     print(f"Customer Phone: {order['customer_phone']}")
                     print(f"Status: {order['status']}")
                     print("-" * 50)
+                    valid_options.append(index)
+                print("0- cancel")
+                
+                while True:
+                    num_order_edit = int(input("please select an order to update: "))
                     
-                num_order_edit = int(input("please select an order to update: "))
-                order_status = orders_list[num_order_edit - 1]["status"]
-                
-                print("Order status is:", order_status)
-                time.sleep(1)
-                
-                status_order_edit = input("please enter the order new status: ")
-                orders_list[num_order_edit - 1]["status"] = status_order_edit
-                print("Order status updated successfully")
-                time.sleep(1)
+                    #cancel edit
+                    if num_order_edit == 0:
+                        print("edit has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif num_order_edit in valid_options:
+                        order_status = orders_list[num_order_edit - 1]["status"]
+                        
+                        print("Order status is:", order_status)
+                        time.sleep(1)
+                        
+                        status_order_edit = input("please enter the order new status: ")
+                        orders_list[num_order_edit - 1]["status"] = status_order_edit
+                        print("Order status updated successfully")
+                        time.sleep(1)
+                        break
+                    
+                    else:
+                        print("Invalid input. Please enter a valid product number.")
+                        time.sleep(1)
             
             #3- 4- UPDATE order
             elif customer_input == "4":
                 print("\nOrder List")
                 print("=" * 50)
+                valid_options.clear()
                 for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
@@ -276,26 +326,41 @@ while True:
                     print(f"Customer Phone: {order['customer_phone']}")
                     print(f"Status: {order['status']}")
                     print("-" * 50)
-
-                num_order_edit = int(input("please select an order to update: "))
+                    valid_options.append(index)
+                print("0- cancel")
                 
-                name_order_edit = input("please write the new name: ")
-                adress_order_edit = input("please write the new address: ")
-                phone_order_edit = int(input("please enter the new phone number: "))
-                status_order_edit = input("please enter the order new status: ")
-                
-                orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
-                orders_list[num_order_edit - 1]["customer_address"] = adress_order_edit
-                orders_list[num_order_edit - 1]["customer_phone"] = phone_order_edit
-                orders_list[num_order_edit - 1]["status"] = status_order_edit
-                
-                print("Order updated successfully")
-                time.sleep(1)
-                
+                while True:
+                    num_order_edit = int(input("please select an order to update: "))
+                    
+                    #cancel edit
+                    if num_order_edit == 0:
+                        print("edit has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif num_order_edit in valid_options:
+                        name_order_edit = input("please write the new name: ")
+                        adress_order_edit = input("please write the new address: ")
+                        phone_order_edit = int(input("please enter the new phone number: "))
+                        status_order_edit = input("please enter the order new status: ")
+                        
+                        orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
+                        orders_list[num_order_edit - 1]["customer_address"] = adress_order_edit
+                        orders_list[num_order_edit - 1]["customer_phone"] = phone_order_edit
+                        orders_list[num_order_edit - 1]["status"] = status_order_edit
+                        
+                        print("Order updated successfully")
+                        time.sleep(1)
+                        break
+                    
+                    else:
+                        print("Invalid input. Please enter a valid product number.")
+                        time.sleep(1)
             #3- 5- delete order
             elif customer_input == "5":
                 print("\nOrder List")
                 print("=" * 50)
+                valid_options.clear()
                 for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
@@ -303,12 +368,27 @@ while True:
                     print(f"Customer Phone: {order['customer_phone']}")
                     print(f"Status: {order['status']}")
                     print("-" * 50)
-                    
-                num_order_del = int(input("please select an order to delete: "))
-                del orders_list[num_order_del - 1]
-                print("Order deleted successfully")
-                time.sleep(1)
+                    valid_options.append(index)
+                print("0- cancel")
                 
+                while True:    
+                    num_order_del = int(input("please select an order to delete: "))
+                    
+                    #cancel deleting
+                    if num_order_del == 0:
+                        print("deleting has been cancelled")
+                        time.sleep(1)
+                        break
+                    
+                    elif num_order_del in valid_options:
+                        del orders_list[num_order_del - 1]
+                        print("Order deleted successfully")
+                        time.sleep(1)
+                        break
+                    
+                    else:
+                        print("Invalid input. Please enter a valid product number.")
+                        time.sleep(1)
                 
             #3- 0- Return to main menu
             elif customer_input == "0":
