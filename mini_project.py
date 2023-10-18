@@ -5,7 +5,6 @@
 
 
 
-
 import json
 import time
  
@@ -202,8 +201,8 @@ while True:
                 courier_name = input("please enter the new courier name: ")
                 courier_phone_number = input("please enter the new courier phone number: ")
                 
-                courier_dict.append(courier_name)
-                
+                courier_dict["name"] = courier_name
+                courier_dict["phone"] = courier_phone_number
                 
                 print(f"{courier_name} added successfully.")
                 
