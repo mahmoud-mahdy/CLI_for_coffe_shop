@@ -1,1 +1,1 @@
-{"Espresso": 1.99, "Cappuccino": 2.49, "Latte": 2.99, "Mocha": 3.49, "Americano": 2.29, "Macchiato": 2.79, "Milk": 1.0}
+[{"name": "Espresso", "price": 1.99}, {"name": "Macchiato", "price": 2.79}, {"name": "Cappuccino", "price": 2.49}, {"name": "Latte", "price": 2.99}, {"name": "Mocha", "price": 3.49}, {"name": "Americano", "price": 2.29}]

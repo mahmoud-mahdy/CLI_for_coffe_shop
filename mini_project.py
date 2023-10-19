@@ -1,104 +1,27 @@
-#LOAD products from products.csv    
-# LOAD couriers from couriers.csv    
-# LOAD orders from orders.csv
-
-
-
-
 import json
 import time
+import functions
+
  
-#import orders list
-# with open("orders_list.json", 'r') as file:
-# orders_dict = json.load(file)
+# import orders list
+with open("orders_list.json", 'r') as file:
+    orders_list = json.load(file)
 
-orders_dict = [
-    {"customer_name": "John",
-  "customer_address": "Unit 2, 12 Main Street, LONDON, WH1 2ER",
-  "customer_phone": "0789887334",
-  "courier": 2, # Courier index
-  "status": "preparing",
-  "items": "1, 3, 4" }# Product index 
- ]
+#import products list
+with open("products_list.json", 'r') as file:
+    products_list = json.load(file)
     
-# #import products list
-# with open("products_list.json", 'r') as file:
-# products_dict = json.load(file)
-    
-products_dict = {
-    "Espresso": 1.99,
-    "Cappuccino": 2.49,
-    "Latte": 2.99,
-    "Mocha": 3.49,
-    "Americano": 2.29,
-    "Macchiato": 2.79,
-    "Milk": 1.00
-}
-
 #import courier list
-# with open("courier_list.json", 'r') as file:
-# courier_dict = json.load(file)
+with open("courier_list.json", 'r') as file:
+    courier_list = json.load(file)
 
-courier_dict = [
-    {"name": "John", "phone": "0789887889"},
-    {"name": "Alice", "phone": "0734567890"},
-    {"name": "Michael", "phone": "0722222222"},
-    {"name": "Emily", "phone": "0711111111"},
-    {"name": "Ahmed", "phone": "0799999999"}
-]
 
-# display main menu
-def main_menu():
-    print("""
-    Coffe Shop Menu
-    ===============
-    1- Product menu
-    2- couriers menu
-    3- Orders menu
-    0- Exit app 
-          """)
 
-# display Product menu
-def product_menu():
-    print("""
-    Products Menu
-    ===============
-    1- Create New product
-    2- Product list
-    3- Edit product list
-    4- Delete a product
-    0- Return to Main menu
-    """)
-
-# display couriers menu    
-def courier_menu():
-    print("""
-    courier Menu
-    ============ 
-    1- Create new courier
-    2- Couriers list
-    3- Update an existing courier
-    4- Delete a courier
-    0- Return to Main menu
-          """)
-
-# display Orders menu    
-def orders_menu():
-    print("""
-    Orders Menu
-    ===========
-    1- Create New order
-    2- Order list
-    3- Update an order status
-    4- Update an order
-    5- Delete an order
-    0- Return to Main menu
-    """)
-    
 valid_options = []
 while True:
     #printing the menu and taking input
-    main_menu()
+    functions.display_main_menu()
+    
     customer_input = input("Please select an option: ")
     
     #exit app
@@ -109,20 +32,25 @@ while True:
     # 1- open products menu
     elif customer_input == "1":        
         while True:
-            product_menu()
+            functions.display_product_menu()
             customer_input = input("please select a option: ")
             
             # creat new product
             if customer_input == "1":
-                new_product = input("please enter the new product: ")
-                products_dict.append(new_product)
+                new_product_name = input("please enter the new product: ")
+                new_product_price = input("please enter the new product price: ")
+                
+                new_product = [{"name":new_product_name,
+                                "price":new_product_price}]
+                
+                products_list.append(new_product)
                 print(f"{new_product} added successfully.")
                 time.sleep(1)
                 
             #show product list
             elif customer_input == "2":
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(products_dict, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                 input("\npress enter to go to main menu.")
             
@@ -130,7 +58,7 @@ while True:
             elif customer_input == "3":
                 valid_options.clear()
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(products_dict, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
                 print(f"    {0}- Cancel")
@@ -145,7 +73,7 @@ while True:
                     
                     elif edit_index_product in valid_options:
                         edit_name_product = input("please write the new name for the product:")
-                        products_dict[edit_index_product - 1] = (f"{edit_name_product}")
+                        products_list[edit_index_product - 1] = (f"{edit_name_product}")
                         print("Product name updated successfully.")
                         time.sleep(1)
                         break
@@ -158,7 +86,7 @@ while True:
             elif customer_input == "4":
                 valid_options.clear()
                 print("\n    Product List\n    ============")
-                for index, product in enumerate(products_dict, start=1):
+                for index, product in enumerate(products_list, start=1):
                     print(f"    {index}- {product}")
                     valid_options.append(index)
                 print(f"    {0}- Cancel")    
@@ -173,7 +101,7 @@ while True:
                         break
                     
                     elif delete_index_product in valid_options:
-                        del products_dict[delete_index_product - 1]
+                        del products_list[delete_index_product - 1]
                         print("Product deleted successfully.")
                         time.sleep(1)
                         break
@@ -193,7 +121,7 @@ while True:
     # 2- couriers menu
     elif customer_input == "2":
         while True:
-            courier_menu()
+            functions.display_courier_menu()
             customer_input = input("Please select an option: ")
             
             # 2- 1- creat new courier
@@ -201,8 +129,8 @@ while True:
                 courier_name = input("please enter the new courier name: ")
                 courier_phone_number = input("please enter the new courier phone number: ")
                 
-                courier_dict["name"] = courier_name
-                courier_dict["phone"] = courier_phone_number
+                courier_list["name"] = courier_name
+                courier_list["phone"] = courier_phone_number
                 
                 print(f"{courier_name} added successfully.")
                 
@@ -211,7 +139,7 @@ while True:
             # print couriers list
             elif customer_input =="2":
                 print("\n    couriers List\n    =============")
-                for index, courier in enumerate(courier_dict, start=1):
+                for index, courier in enumerate(courier_list, start=1):
                     print(f"    {index}- {courier}")
                 input("\npress enter to go to main menu.")
             
@@ -219,7 +147,7 @@ while True:
             elif customer_input == "3":
                 valid_options.clear()
                 print("\n    courier List\n    ============")
-                for index, courier in enumerate(courier_dict, start=1):
+                for index, courier in enumerate(courier_list, start=1):
                     print(f"    {index}- {courier}")
                     valid_options.append(index)
                 print(f"    {0}- Cancel")
@@ -235,7 +163,7 @@ while True:
                     
                     elif edit_index_courier in valid_options:
                             edit_name_courier = input("please write the new name for the courier:")
-                            courier_dict[edit_index_courier - 1] = (f"{edit_name_courier}")
+                            courier_list[edit_index_courier - 1] = (f"{edit_name_courier}")
                             print("courier name updated successfully.")
                             time.sleep(1)
                             break
@@ -247,7 +175,7 @@ while True:
             elif customer_input =="4":
                 valid_options.clear()
                 print("\n    couriers List\n    =============")
-                for index, courier in enumerate(courier_dict, start=1):
+                for index, courier in enumerate(courier_list, start=1):
                     print(f"    {index}- {courier}")
                     valid_options.append(index)
                 print(f"    {0}- cancel")
@@ -262,7 +190,7 @@ while True:
                         break
                     
                     elif delete_index_product in valid_options:
-                        del courier_dict[delete_index_product - 1]
+                        del courier_list[delete_index_product - 1]
                         print("courier deleted successfully.")
                         time.sleep(1)
                         break
@@ -282,7 +210,7 @@ while True:
     #3- open orders menu
     elif customer_input == "3":
         while True:
-            orders_menu()
+            functions.display_orders_menu()
             customer_input = input("Please select an option: ")
  
             #3- 1- create new order    
@@ -296,7 +224,7 @@ while True:
                     "customer_phone": customer_phone_number,
                     "status": "preparing"
                     }
-                orders_dict.append(new_customer)
+                orders_list.append(new_customer)
                 print("Order added to the list successfully")
                 time.sleep(1)
                 
@@ -304,7 +232,7 @@ while True:
             elif customer_input == "2":
                 print("\nOrder List")
                 print("=" * 50)
-                for index, order in enumerate(orders_dict, start=1):
+                for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
                     print(f"Customer Address: {order['customer_address']}")
@@ -318,7 +246,7 @@ while True:
                 print("\nOrder List")
                 print("=" * 50)
                 valid_options.clear()
-                for index, order in enumerate(orders_dict, start=1):
+                for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
                     print(f"Customer Address: {order['customer_address']}")
@@ -338,13 +266,13 @@ while True:
                         break
                     
                     elif num_order_edit in valid_options:
-                        order_status = orders_dict[num_order_edit - 1]["status"]
+                        order_status = orders_list[num_order_edit - 1]["status"]
                         
                         print("Order status is:", order_status)
                         time.sleep(1)
                         
                         status_order_edit = input("please enter the order new status: ")
-                        orders_dict[num_order_edit - 1]["status"] = status_order_edit
+                        orders_list[num_order_edit - 1]["status"] = status_order_edit
                         print("Order status updated successfully")
                         time.sleep(1)
                         break
@@ -358,7 +286,7 @@ while True:
                 print("\nOrder List")
                 print("=" * 50)
                 valid_options.clear()
-                for index, order in enumerate(orders_dict, start=1):
+                for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
                     print(f"Customer Address: {order['customer_address']}")
@@ -383,10 +311,10 @@ while True:
                         phone_order_edit = int(input("please enter the new phone number: "))
                         status_order_edit = input("please enter the order new status: ")
                         
-                        orders_dict[num_order_edit - 1]["customer_name"] = name_order_edit
-                        orders_dict[num_order_edit - 1]["customer_address"] = adress_order_edit
-                        orders_dict[num_order_edit - 1]["customer_phone"] = phone_order_edit
-                        orders_dict[num_order_edit - 1]["status"] = status_order_edit
+                        orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
+                        orders_list[num_order_edit - 1]["customer_address"] = adress_order_edit
+                        orders_list[num_order_edit - 1]["customer_phone"] = phone_order_edit
+                        orders_list[num_order_edit - 1]["status"] = status_order_edit
                         
                         print("Order updated successfully")
                         time.sleep(1)
@@ -400,7 +328,7 @@ while True:
                 print("\nOrder List")
                 print("=" * 50)
                 valid_options.clear()
-                for index, order in enumerate(orders_dict, start=1):
+                for index, order in enumerate(orders_list, start=1):
                     print(f"Order {index}:")
                     print(f"Customer Name: {order['customer_name']}")
                     print(f"Customer Address: {order['customer_address']}")
@@ -420,7 +348,7 @@ while True:
                         break
                     
                     elif num_order_del in valid_options:
-                        del orders_dict[num_order_del - 1]
+                        del orders_list[num_order_del - 1]
                         print("Order deleted successfully")
                         time.sleep(1)
                         break
@@ -447,12 +375,12 @@ while True:
 
 #save changes to products_list
 with open("products_list.json", 'w') as file:
-    json.dump(products_dict, file)
+    json.dump(products_list, file)
 
 #save changes to orders_list  
 with open("orders_list.json", 'w') as file:
-    json.dump(orders_dict, file)
+    json.dump(orders_list, file)
     
 #save changes to courier_list
 with open("courier_list.json", 'w') as file:
-    json.dump(courier_dict, file)
+    json.dump(courier_list, file)
