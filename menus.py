@@ -45,3 +45,21 @@ def display_orders_menu():
     5- Delete an order
     0- Return to Main menu
     """)
+    
+# display product lists
+def display_products_list(products_list, valid_options):
+    print("\n    Product List\n    ============")
+    for index, product in enumerate(products_list, start=1):
+        name = product['name']
+        price = product['price']
+        print(f"    {index}- {name.ljust(12)} {price:.2f}")
+        print("    "+'-' * len(f"{index}- {name.ljust(12)} {price:.2f}"))
+        valid_options.append(index)
+        
+def check_valid_name(new_product_name):
+    while True:
+        if new_product_name == "":
+            print("Invalid price. Please enter a valid number.")
+            time.sleep(1)
+        else:
+            return new_product_name

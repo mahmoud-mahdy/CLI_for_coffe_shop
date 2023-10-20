@@ -1,6 +1,6 @@
 import json
 import time
-import functions
+import menus
 
  
 # import orders list
@@ -19,12 +19,11 @@ with open("courier_list.json", 'r') as file:
 
 valid_options = []
 while True:
-    #printing the menu and taking input
-    functions.display_main_menu()
-    
+    # printing the menu and taking input
+    menus.display_main_menu()
     customer_input = input("Please select an option: ")
     
-    #exit app
+    # 0- exit app
     if customer_input == "0":
         print("App closed.")
         break
@@ -32,35 +31,38 @@ while True:
     # 1- open products menu
     elif customer_input == "1":        
         while True:
-            functions.display_product_menu()
+            menus.display_product_menu()
             customer_input = input("please select a option: ")
             
             # creat new product
             if customer_input == "1":
                 new_product_name = input("please enter the new product: ")
-                new_product_price = input("please enter the new product price: ")
-                
-                new_product = [{"name":new_product_name,
-                                "price":new_product_price}]
+                menus.check_valid_name(new_product_name)
+                while True:
+                    new_product_price = input("please enter the new product price: ")
+                    try:
+                        new_product_price = float(new_product_price)
+                        break
+                    except ValueError:
+                        print("Invalid price. Please enter a valid number.")
+                        time.sleep(1)
+                 
+                new_product = {"name":new_product_name, "price":new_product_price}
                 
                 products_list.append(new_product)
-                print(f"{new_product} added successfully.")
+                print(f"{new_product_name} added successfully.")
                 time.sleep(1)
                 
             #show product list
             elif customer_input == "2":
-                print("\n    Product List\n    ============")
-                for index, product in enumerate(products_list, start=1):
-                    print(f"    {index}- {product}")
+                menus.display_products_list(products_list, valid_options)
                 input("\npress enter to go to main menu.")
-            
+
+
             #rename a product
             elif customer_input == "3":
                 valid_options.clear()
-                print("\n    Product List\n    ============")
-                for index, product in enumerate(products_list, start=1):
-                    print(f"    {index}- {product}")
-                    valid_options.append(index)
+                menus.display_products_list(products_list, valid_options)
                 print(f"    {0}- Cancel")
                     
                 while True:
@@ -73,8 +75,9 @@ while True:
                     
                     elif edit_index_product in valid_options:
                         edit_name_product = input("please write the new name for the product:")
+                        edit_name_price = input("please write the new name for the product:")
                         products_list[edit_index_product - 1] = (f"{edit_name_product}")
-                        print("Product name updated successfully.")
+                        print(f"Product {product['name']} updated successfully.")
                         time.sleep(1)
                         break
                         
@@ -121,7 +124,7 @@ while True:
     # 2- couriers menu
     elif customer_input == "2":
         while True:
-            functions.display_courier_menu()
+            menus.display_courier_menu()
             customer_input = input("Please select an option: ")
             
             # 2- 1- creat new courier
@@ -210,7 +213,7 @@ while True:
     #3- open orders menu
     elif customer_input == "3":
         while True:
-            functions.display_orders_menu()
+            menus.display_orders_menu()
             customer_input = input("Please select an option: ")
  
             #3- 1- create new order    
