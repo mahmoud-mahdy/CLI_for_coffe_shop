@@ -1,6 +1,6 @@
 import json
 import time
-import menus
+import functions
 
  
 # import orders list
@@ -20,7 +20,7 @@ with open("courier_list.json", 'r') as file:
 valid_options = []
 while True:
     # printing the menu and taking input
-    menus.display_main_menu()
+    functions.display_main_menu()
     customer_input = input("Please select an option: ")
     
     # 0- exit app
@@ -31,112 +31,108 @@ while True:
     # 1- open products menu
     elif customer_input == "1":        
         while True:
-            menus.display_product_menu()
+            functions.display_product_menu()
             customer_input = input("please select a option: ")
             
-            # creat new product
+            # 1- 1- creat new product
             if customer_input == "1":
-                new_product_name = input("please enter the new product: ")
-                menus.check_valid_name(new_product_name)
-                while True:
-                    new_product_price = input("please enter the new product price: ")
-                    try:
-                        new_product_price = float(new_product_price)
-                        break
-                    except ValueError:
-                        print("Invalid price. Please enter a valid number.")
-                        time.sleep(1)
-                 
-                new_product = {"name":new_product_name, "price":new_product_price}
+                new_product_name = input("please enter the new product name: ")
+                if not functions.check_valid_name(new_product_name):
+                    continue
+                new_product_price = input("please enter the new product price: ")
+                if not functions.check_valid_price(new_product_price):
+                    continue
                 
+                new_product = {"name":new_product_name, "price":float(new_product_price)}
                 products_list.append(new_product)
                 print(f"{new_product_name} added successfully.")
                 time.sleep(1)
                 
-            #show product list
+            # 1- 2- show product list
             elif customer_input == "2":
-                menus.display_products_list(products_list, valid_options)
+                functions.display_products_list(products_list, valid_options)
                 input("\npress enter to go to main menu.")
 
-
-            #rename a product
+            # 1- 3- rename a product
             elif customer_input == "3":
                 valid_options.clear()
-                menus.display_products_list(products_list, valid_options)
+                functions.display_products_list(products_list, valid_options)
                 print(f"    {0}- Cancel")
                     
-                while True:
-                    edit_index_product = int(input("\nplease write the product number you want to rename: "))
-                    #cancel edit
-                    if edit_index_product == 0:
-                        print("edit has been cancelled")
-                        time.sleep(1)
-                        break
+                edit_index_product = int(input("\nplease write the product number you want to rename: "))
+                
+                #cancel edit
+                if edit_index_product == 0:
+                    print("edit has been cancelled")
+                    time.sleep(1)
+                    continue
                     
-                    elif edit_index_product in valid_options:
-                        edit_name_product = input("please write the new name for the product:")
-                        edit_name_price = input("please write the new name for the product:")
-                        products_list[edit_index_product - 1] = (f"{edit_name_product}")
-                        print(f"Product {product['name']} updated successfully.")
-                        time.sleep(1)
-                        break
-                        
-                    else:
-                        print("Invalid input. Please enter a valid product number.")
-                        time.sleep(1)
+                elif edit_index_product in valid_options:
+                    edit_name_product = input("please write the new name for the product:")
+                    if not functions.check_valid_name(edit_name_product):
+                        continue
+                    edit_name_price = input("please write the new price for the product:")
+                    if not functions.check_valid_price(edit_name_price):
+                        continue
+                    
+                    products_list[edit_index_product - 1]["name"] = edit_name_product
+                    products_list[edit_index_product - 1]["price"] = float(edit_name_price)
+                    print(f"Product has been updated to {edit_name_product} successfully.")
+                    time.sleep(1)
+                    
+                    
+                else:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
             
-            #delete product
+            # 1- 4- delete product
             elif customer_input == "4":
                 valid_options.clear()
-                print("\n    Product List\n    ============")
-                for index, product in enumerate(products_list, start=1):
-                    print(f"    {index}- {product}")
-                    valid_options.append(index)
-                print(f"    {0}- Cancel")    
-                    
-                while True:
-                    delete_index_product = int(input("please write the product number: "))
-                    
-                    #cancel edit
-                    if delete_index_product == 0:
-                        print("deleting has been cancelled")
-                        time.sleep(1)
-                        break
-                    
-                    elif delete_index_product in valid_options:
-                        del products_list[delete_index_product - 1]
-                        print("Product deleted successfully.")
-                        time.sleep(1)
-                        break
-                    else:
-                        print("Invalid input. Please enter a valid product number.")
-                        time.sleep(1)
+                functions.display_products_list(products_list, valid_options)
+                print(f"    {0}- Cancel")
                 
-            # Return to main menu
+                delete_index_product = int(input("please write the product number: "))
+                
+                #cancel delete
+                if delete_index_product == 0:
+                    print("deleting has been cancelled")
+                    time.sleep(1)
+                
+                elif delete_index_product in valid_options:
+                    del products_list[delete_index_product - 1]
+                    print("Product deleted successfully.")
+                    time.sleep(1)
+                    
+                else:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                
+            # 1- 0- Return to main menu
             elif customer_input == "0":
                 break
                   
-            #invalid input  
+            # invalid input  
             else:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
 
     # 2- couriers menu
     elif customer_input == "2":
-        while True:
-            menus.display_courier_menu()
+            functions.display_courier_menu()
             customer_input = input("Please select an option: ")
             
             # 2- 1- creat new courier
             if customer_input =="1":
                 courier_name = input("please enter the new courier name: ")
+                if not functions.check_valid_name(courier_name):
+                    continue
                 courier_phone_number = input("please enter the new courier phone number: ")
+                if not functions.check_valid_phone_number(courier_phone_number):
+                    continue
                 
-                courier_list["name"] = courier_name
-                courier_list["phone"] = courier_phone_number
-                
+                new_courier = {"name":courier_name, "phone": str(courier_phone_number)}
+                courier_list.append(new_courier)
                 print(f"{courier_name} added successfully.")
-                
                 time.sleep(1)
             
             # print couriers list
@@ -213,7 +209,7 @@ while True:
     #3- open orders menu
     elif customer_input == "3":
         while True:
-            menus.display_orders_menu()
+            functions.display_orders_menu()
             customer_input = input("Please select an option: ")
  
             #3- 1- create new order    

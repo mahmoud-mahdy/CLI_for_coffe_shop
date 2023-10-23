@@ -1,3 +1,5 @@
+import time
+
 # display main menu
 def display_main_menu():
     print("""
@@ -55,11 +57,54 @@ def display_products_list(products_list, valid_options):
         print(f"    {index}- {name.ljust(12)} {price:.2f}")
         print("    "+'-' * len(f"{index}- {name.ljust(12)} {price:.2f}"))
         valid_options.append(index)
-        
-def check_valid_name(new_product_name):
-    while True:
-        if new_product_name == "":
-            print("Invalid price. Please enter a valid number.")
-            time.sleep(1)
+
+#check name is valid
+def check_valid_name(name):
+    """
+    if name is valid return True,
+    if name is not valid (blank) return False.
+    """
+    if name == "":
+        print("process has been cancelled, name cant be blank.")
+        time.sleep(1)
+        return False
+    return True
+
+#check price is valid
+def check_valid_price(price):
+    """
+    if price is float >= 0  return True,
+    else return False.
+    """
+    try:
+        price = float(price)
+        if price >= 0:
+            return True
         else:
-            return new_product_name
+            print("process has been cancelled, Price must be a non-negative number.")
+            time.sleep(1)
+            return False
+    
+    except ValueError:
+        print("process has been cancelled, Please enter a numeric value.")
+        time.sleep(1)
+        return False
+
+#check phone number is valid
+def check_valid_phone_number(phone):
+    """
+    return true if phone number is valid (10 numbers)
+    else return false
+    """
+    try:
+        phone = int(phone)
+        if len(str(phone)) == 10:
+            return True
+        else:
+            print("process has been cancelled, Phone number must be 10 numbers.")
+            time.sleep(1)
+            return False
+    except ValueError:
+        print("process has been cancelled, Phone number must be 10 numbers.")
+        time.sleep(1)
+        return False
