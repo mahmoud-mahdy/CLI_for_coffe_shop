@@ -54,10 +54,40 @@ def display_products_list(products_list, valid_options):
     for index, product in enumerate(products_list, start=1):
         name = product['name']
         price = product['price']
-        print(f"    {index}- {name.ljust(12)} {price:.2f}")
+        print(f"    {index}- {name.ljust(12)} {price:.2f}£")
         print("    "+'-' * len(f"{index}- {name.ljust(12)} {price:.2f}"))
         valid_options.append(index)
 
+# display courier list
+def display_courier_list(courier_list, valid_options):
+    print("\n    courier list\n    ============")
+    for index, courier in enumerate(courier_list, start=1):
+        name = courier['name']
+        phone = courier['phone']
+        print(f"    {index}- {name.ljust(12)} {phone}")
+        print("    "+'-' * len(f"{index}- {name.ljust(12)} {phone}"))
+        valid_options.append(index)
+
+# display order list
+def display_order_list(orders_list, valid_options):
+    print("\nOrder List")
+    print("=" * 50)
+    for index, order in enumerate(orders_list, start=1):
+        print(f"Order {index}:")
+        print(f"Customer Name:      {order['customer_name']}")
+        print("-" * 50)
+        print(f"Customer Address:   {order['customer_address']}")
+        print("-" * 50)
+        print(f"Customer Phone:     {order['customer_phone']}")
+        print("-" * 50)
+        print(f"Courier:            {order['courier']}")
+        print("-" * 50)
+        print(f"Status:             {order['status']}")
+        print("-" * 50)
+        print(f"Items:              {order['items']}")
+        print("=" * 50)
+        valid_options.append(index)
+        
 #check name is valid
 def check_valid_name(name):
     """
@@ -65,7 +95,7 @@ def check_valid_name(name):
     if name is not valid (blank) return False.
     """
     if name == "":
-        print("process has been cancelled, name cant be blank.")
+        print("process has been cancelled, input cant be blank.")
         time.sleep(1)
         return False
     return True
@@ -97,7 +127,7 @@ def check_valid_phone_number(phone):
     else return false
     """
     try:
-        phone = int(phone)
+        p = int(phone)
         if len(str(phone)) == 10:
             return True
         else:
@@ -106,5 +136,19 @@ def check_valid_phone_number(phone):
             return False
     except ValueError:
         print("process has been cancelled, Phone number must be 10 numbers.")
+        time.sleep(1)
+        return False
+
+#check courier number is valid
+def check_valid_courier(courier):
+    try:
+        courier = int(courier)
+        if courier < 0:
+            print("process has been cancelled, courier number must be non negative numeric number.")
+            time.sleep(1)
+            return False
+        return True
+    except ValueError:
+        print("process has been cancelled, courier number must be non negative numeric number.")
         time.sleep(1)
         return False
