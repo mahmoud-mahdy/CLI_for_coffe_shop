@@ -6,15 +6,15 @@ import functions
 
  
 # import orders list
-with open("orders_list.json", 'r') as file:
+with open("data/orders_list.json", 'r') as file:
     orders_list = json.load(file)
 
 #import products list
-with open("products_list.json", 'r') as file:
+with open("data/products_list.json", 'r') as file:
     products_list = json.load(file)
     
 #import courier list
-with open("couriers_list.json", 'r') as file:
+with open("data/couriers_list.json", 'r') as file:
     courier_list = json.load(file)
 
 
@@ -398,13 +398,13 @@ while True:
 
 
 #save changes to products_list
-with open("products_list.json", 'w') as file:
+with open("data/products_list.json", 'w') as file:
     json.dump(products_list, file)
 
 #save changes to orders_list  
-with open("orders_list.json", 'w') as file:
+with open("data/orders_list.json", 'w') as file:
     json.dump(orders_list, file)
     
 #save changes to courier_list
-with open("courier_list.json", 'w') as file:
+with open("data/courier_list.json", 'w') as file:
     json.dump(courier_list, file)
