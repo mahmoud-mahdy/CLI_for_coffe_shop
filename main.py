@@ -60,8 +60,13 @@ while True:
                 valid_options.clear()
                 functions.display_products_list(products_list, valid_options)
                 print(f"    {0}- Cancel")
-                    
-                edit_index_product = int(input("\nplease write the product number you want to rename: "))
+                
+                try: 
+                    edit_index_product = int(input("\nplease write the product number you want to rename: "))
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel edit
                 if edit_index_product == 0:
@@ -93,7 +98,12 @@ while True:
                 functions.display_products_list(products_list, valid_options)
                 print(f"    {0}- Cancel")
                 
-                delete_index_product = int(input("please write the product number: "))
+                try:
+                    delete_index_product = int(input("please write the product number: "))
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel delete
                 if delete_index_product == 0:
@@ -125,6 +135,7 @@ while True:
             
             # 2- 1- creat new courier #!done
             if customer_input =="1":
+                
                 courier_name = input("please enter the new courier name: ")
                 if not functions.check_valid_name(courier_name):
                     continue
@@ -148,7 +159,12 @@ while True:
                 functions.display_courier_list(courier_list, valid_options)
                 print(f"    {0}- Cancel")
                 
-                edit_index_courier = int(input("\nplease write the courier number you want to rename: "))
+                try:
+                    edit_index_courier = int(input("\nplease write the courier number you want to rename: "))
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel edit 
                 if edit_index_courier == 0:
@@ -180,7 +196,12 @@ while True:
                 functions.display_courier_list(courier_list, valid_options)
                 print(f"    {0}- cancel")
                 
-                delete_index_product = int(input("please write the courier number: "))
+                try:
+                    delete_index_product = int(input("please write the courier number: "))
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel edit
                 if delete_index_product == 0:
@@ -207,7 +228,7 @@ while True:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
             
-    #3- open orders menu
+    #3- open orders menu #! done
     elif customer_input == "3":
         while True:
             functions.display_orders_menu()
@@ -253,7 +274,13 @@ while True:
                 functions.display_order_list(orders_list, valid_options)
                 print("0- cancel")
                 
-                num_order_edit = int(input("please select an order to update: "))
+                try:
+                    num_order_edit = int(input("please select an order to update: "))
+                
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel edit
                 if num_order_edit == 0:
@@ -275,14 +302,19 @@ while True:
                     print("Invalid input. Please enter a valid product number.")
                     time.sleep(1)
             
-            #3- 4- UPDATE order
+            #3- 4- UPDATE order #! done
             elif customer_input == "4":
                 
                 valid_options.clear()
                 functions.display_order_list(orders_list, valid_options)
                 print("0- cancel")
                 
-                num_order_edit = input("please select an order to update: ") #! need to be fixed if input string program crashes
+                try:
+                    num_order_edit = int(input("please select an order to update: "))               
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                 
                 #cancel edit
                 if num_order_edit == 0:
@@ -297,14 +329,17 @@ while True:
                     if not functions.check_valid_name(adress_order_edit):
                         continue
                     phone_order_edit = input("please enter the new phone number: ")
-                    if not functions.check_valid_name(phone_order_edit):
+                    if not functions.check_valid_phone_number(phone_order_edit):
                         continue
                     courier_num_edit = input("please enter the new courier number: ")
                     if not functions.check_valid_courier(courier_num_edit):
                         continue
                     status_order_edit = input("please enter the order new status: ")
+                    if not functions.check_valid_name(status_order_edit):
+                        continue
                     items_order_edit = input("please enter the order new items: ")
-                    
+                    if not functions.check_valid_name(items_order_edit):
+                        continue
                     orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
                     orders_list[num_order_edit - 1]["customer_address"] = adress_order_edit
                     orders_list[num_order_edit - 1]["customer_phone"] = phone_order_edit
@@ -319,39 +354,32 @@ while True:
                     print("Invalid input. Please enter a valid product number.")
                     time.sleep(1)
                     
-            #3- 5- delete order
+            #3- 5- delete order #! done
             elif customer_input == "5":
-                print("\nOrder List")
-                print("=" * 50)
                 valid_options.clear()
-                for index, order in enumerate(orders_list, start=1):
-                    print(f"Order {index}:")
-                    print(f"Customer Name: {order['customer_name']}")
-                    print(f"Customer Address: {order['customer_address']}")
-                    print(f"Customer Phone: {order['customer_phone']}")
-                    print(f"Status: {order['status']}")
-                    print("-" * 50)
-                    valid_options.append(index)
+                functions.display_order_list(orders_list, valid_options)
                 print("0- cancel")
                 
-                while True:    
+                try:
                     num_order_del = int(input("please select an order to delete: "))
+                except:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
+                    continue
                     
-                    #cancel deleting
-                    if num_order_del == 0:
-                        print("deleting has been cancelled")
-                        time.sleep(1)
-                        break
+                #cancel deleting
+                if num_order_del == 0:
+                    print("deleting has been cancelled")
+                    time.sleep(1)
                     
-                    elif num_order_del in valid_options:
-                        del orders_list[num_order_del - 1]
-                        print("Order deleted successfully")
-                        time.sleep(1)
-                        break
+                elif num_order_del in valid_options:
+                    del orders_list[int(num_order_del) - 1]
+                    print("Order deleted successfully")
+                    time.sleep(1)
                     
-                    else:
-                        print("Invalid input. Please enter a valid product number.")
-                        time.sleep(1)
+                else:
+                    print("Invalid input. Please enter a valid product number.")
+                    time.sleep(1)
                 
             #3- 0- Return to main menu
             elif customer_input == "0":
