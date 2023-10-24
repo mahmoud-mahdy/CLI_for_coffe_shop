@@ -1,0 +1,5 @@
+1-3- and 1-4-
+ fix invalid string
+check order input is valid and make it so he doesnt have to rewrite if he want same 
+
+ add l.just to order list
