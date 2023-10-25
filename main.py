@@ -320,24 +320,25 @@ while True:
                 if num_order_edit == 0:
                     print("edit has been cancelled")
                     time.sleep(1)
-                    
+                
+                
                 elif num_order_edit in valid_options:
-                    name_order_edit = input("please write the new name: ")
+                    name_order_edit = input(f"the old name is ({orders_list[num_order_edit - 1]['customer_name']}) please write the new name: ")
                     if not functions.check_valid_name(name_order_edit):
                         continue
-                    adress_order_edit = input("please write the new address: ")
+                    adress_order_edit = input(f"the old address is ({orders_list[num_order_edit - 1]['customer_address']}) please write the new address: ")
                     if not functions.check_valid_name(adress_order_edit):
                         continue
-                    phone_order_edit = input("please enter the new phone number: ")
+                    phone_order_edit = input(f"the old phone is ({orders_list[num_order_edit - 1]['customer_phone']}) please enter the new phone number: ")
                     if not functions.check_valid_phone_number(phone_order_edit):
                         continue
-                    courier_num_edit = input("please enter the new courier number: ")
+                    courier_num_edit = input(f"the old name is ({orders_list[num_order_edit - 1]['courier']}) please enter the new courier number: ")
                     if not functions.check_valid_courier(courier_num_edit):
                         continue
-                    status_order_edit = input("please enter the order new status: ")
+                    status_order_edit = input(f"the old status is ({orders_list[num_order_edit - 1]['status']}) please enter the order new status: ")
                     if not functions.check_valid_name(status_order_edit):
                         continue
-                    items_order_edit = input("please enter the order new items: ")
+                    items_order_edit = input(f"the old items ({orders_list[num_order_edit - 1]['items']}) please enter the order new items: ")
                     if not functions.check_valid_name(items_order_edit):
                         continue
                     orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
@@ -349,7 +350,8 @@ while True:
                     
                     print("Order updated successfully")
                     time.sleep(1)
-                    
+                
+                # invalid input  
                 else:
                     print("Invalid input. Please enter a valid product number.")
                     time.sleep(1)
@@ -406,5 +408,5 @@ with open("data/orders_list.json", 'w') as file:
     json.dump(orders_list, file)
     
 #save changes to courier_list
-with open("data/courier_list.json", 'w') as file:
+with open("data/couriers_list.json", 'w') as file:
     json.dump(courier_list, file)
