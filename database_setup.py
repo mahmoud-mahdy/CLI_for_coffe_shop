@@ -35,4 +35,5 @@ finally:
     if 'conn' in locals() and conn.open:
         cursor.close()
         conn.close()
-        print("MySQL connection is closed")
+        print("MySQL connection is closed")kuhuhk
+        
