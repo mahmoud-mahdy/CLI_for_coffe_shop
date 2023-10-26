@@ -391,8 +391,7 @@ while True:
             else:
                 print("invalid option. please select a number from the options above")
                 time.sleep(1)
-
-
+                
     #invalid input
     else:
         print("invalid option. please select a number from the options above")
