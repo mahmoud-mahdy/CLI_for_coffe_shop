@@ -8,7 +8,7 @@ data presistance data saved in files or in data base (mysql).
 
 ## how to run the app
 method one: can be run using python on command line or on ide
-method two: can be run using the stand alone file
+method two: can be run using the stand alone file (..\dist\main\main)
 
 ## how to run any unit tests
 pytest used to run unit test
