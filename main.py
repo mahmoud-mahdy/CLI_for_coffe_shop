@@ -1,4 +1,4 @@
-# TODO: 
+# TODO: make changes directly to database
 
 import json
 import time

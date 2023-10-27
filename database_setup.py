@@ -3,9 +3,19 @@ import os
 import pymysql
 import json
 
+
+# import orders list
+with open("data/orders_list.json", 'r') as file:
+    orders_list = json.load(file)
+
 #import products list
 with open("data/products_list.json", 'r') as file:
     products_list = json.load(file)
+    
+#import courier list
+with open("data/couriers_list.json", 'r') as file:
+    courier_list = json.load(file)
+
 
 load_dotenv()
 host_name = os.environ.get("mysql_host")
@@ -31,22 +41,25 @@ try:
     
     ##? Execute SQL queries using the cursor
     #? making the table
-    # cursor.execute("""CREATE TABLE IF NOT EXISTS products_table (
-    # ProductsID int NOT NULL AUTO_INCREMENT,
-    # ProductsName varchar(255) NOT NULL,
-    # ProductPrice FLOAT NOT NULL,
-    # PRIMARY KEY (ProductsID));""")
+    # cursor.execute("""CREATE TABLE IF NOT EXISTS couriers_table (
+    # CouriersID int NOT NULL AUTO_INCREMENT,
+    # CouriersName varchar(255) NOT NULL,
+    # CouriersPhone varchar(15) NOT NULL,
+    # PRIMARY KEY (CouriersID));
+    # """)
     
     #? inserting the data
-    for product in products_list:
-        cursor.execute("""INSERT INTO products_table (ProductsName, ProductPrice)
-            VALUES (%s, %s)
-        """, (product["name"], product["price"]))
-        print(product)
+    # for courier in courier_list:
+    #     cursor.execute("""INSERT INTO couriers_table (CouriersName, CouriersPhone)
+    #         VALUES (%s, %s)
+    #     """, (courier["name"], courier["phone"]))
+    #     print(courier)
+    
+    
     
     # Commit the changes to the database
     conn.commit()
-    print("Data inserted successfully.")
+    print("commit")
 
 
 except pymysql.Error as err:
