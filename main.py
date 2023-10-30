@@ -1,21 +1,58 @@
 # TODO: make changes directly to database
 
+import pymysql
+from dotenv import load_dotenv
+import os
 import json
 import time
 import functions
 
+load_dotenv()
+host_name = os.environ.get("mysql_host")
+user_name = os.environ.get("mysql_user")
+user_password = os.environ.get("mysql_pass")
+database_name = os.environ.get("mysql_db")
+
+##? Establish a connection to the MySQL server
+try:
+    conn = pymysql.connect(
+        host=host_name,
+        user=user_name,
+        password=user_password,
+        database=database_name
+    )
+    #test
+    if conn.open:
+        print("Connected to the MySQL database")
+
+    # Create a cursor object to interact with the database
+    cursor = conn.cursor()
+    
+    ##! import the product list
+    cursor.execute("SELECT * FROM products_table")
+    products = cursor.fetchall()
+    products_list = [{"id":product[0] ,"name": product[1], "price": product[2]} for product in products]
+    
+    ##! import the courier list
+    cursor.execute("SELECT * FROM couriers_table")
+    couriers = cursor.fetchall()
+    courier_list = [{"id": courier[0], "name": courier[1], "phone": courier[2]} for courier in couriers]
+    
+except pymysql.Error as err:
+    print(f"Error: {err}")
  
-# import orders list
+###! import orders list
 with open("data/orders_list.json", 'r') as file:
     orders_list = json.load(file)
 
-#import products list
-with open("data/products_list.json", 'r') as file:
-    products_list = json.load(file)
-    
-#import courier list
-with open("data/couriers_list.json", 'r') as file:
-    courier_list = json.load(file)
+###! import products list
+# with open("data/products_list.json", 'r') as file:
+#     products_list = json.load(file)
+
+
+###! import courier list
+# with open("data/couriers_list.json", 'r') as file:
+#     courier_list = json.load(file)
 
 
 
@@ -258,7 +295,7 @@ while True:
                     "courier": courier_num,
                     "status": "preparing",
                     "items": items
-                    }
+                    } 
                 orders_list.append(new_customer)
                 print("Order added to the list successfully")
                 time.sleep(1)
@@ -398,9 +435,22 @@ while True:
         time.sleep(1)
 
 
-#save changes to products_list
-with open("data/products_list.json", 'w') as file:
-    json.dump(products_list, file)
+# #save changes to products_list
+# with open("data/products_list.json", 'w') as file:
+#     json.dump(products_list, file)
+
+for product in products_list:
+    update_query = "UPDATE products_table SET ProductsName = %s, ProductPrice = %s WHERE ProductsID  = %s"
+    data = (product["name"], product["price"], product["id"])  
+    cursor.execute(update_query, data)
+    conn.commit()
+
+for courier in courier_list:
+    update_query = "UPDATE products_table SET ProductsName = %s, ProductPrice = %s WHERE ProductsID  = %s"
+    data = (product["name"], product["price"], product["id"])  
+    cursor.execute(update_query, data)
+    conn.commit()
+
 
 #save changes to orders_list  
 with open("data/orders_list.json", 'w') as file:
