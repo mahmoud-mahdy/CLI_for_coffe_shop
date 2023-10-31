@@ -196,7 +196,7 @@ while True:
                 time.sleep(1)
 
     # 2- couriers menu  
-    elif customer_input == "2":
+    elif customer_input == "2":  #! done
         while True:
             functions.display_courier_menu()
             customer_input = input("Please select an option: ")      
@@ -233,7 +233,7 @@ while True:
                 functions.display_courier_list(couriers_list, valid_options)
                 input("\npress enter to go to main menu.")
             
-            # 2- 3- rename courier 
+            # 2- 3- rename courier #! done
             elif customer_input == "3":
                 
                 cursor.execute("SELECT * FROM couriers_table")
@@ -266,13 +266,14 @@ while True:
                         if not functions.check_valid_phone_number(edit_phone_courier):
                             continue
                         
-                        sql = "UPDATE couriers_table SET CouriersName = %s, CourierPhone = %s WHERE CouriersID = %s"
+                        sql = "UPDATE couriers_table SET CouriersName = %s, CouriersPhone = %s WHERE CouriersID = %s"
                         data = (edit_name_courier, edit_phone_courier, couriers_list[edit_index_courier - 1]["id"])
                         cursor.execute(sql, data)
                         conn.commit()
                         
                         # courier_list[edit_index_courier - 1]["name"] = edit_name_courier
                         # courier_list[edit_index_courier - 1]["phone"] = edit_phone_courier
+                        
                         print("courier name updated successfully.")
                         time.sleep(1)
                         
@@ -280,7 +281,7 @@ while True:
                     print("Invalid input. Please enter a valid courier number.")
                     time.sleep(1)
             
-            # 2- 4- delete courier 
+            # 2- 4- delete courier #! done
             elif customer_input =="4":
                 valid_options.clear()
                 functions.display_courier_list(couriers_list, valid_options)
@@ -301,7 +302,14 @@ while True:
                     
                 
                 elif delete_index_product in valid_options:
-                    del couriers_list[delete_index_product - 1]
+                    
+                    sql = "DELETE FROM couriers_table WHERE CouriersID = %s"
+                    data = (couriers_list[delete_index_product - 1]["id"])
+                    cursor.execute(sql, data)
+                    conn.commit()
+                    
+                    #del couriers_list[delete_index_product - 1]
+                    
                     print("courier deleted successfully.")
                     time.sleep(1)
                     
