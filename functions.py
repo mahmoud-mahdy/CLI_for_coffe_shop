@@ -49,7 +49,7 @@ def display_orders_menu():
     """)
     
 # display product lists
-def display_products_list(products_list, valid_options):
+def display_products_list(products_list, valid_options):           
     print("\n    Product List\n    ============")
     for index, product in enumerate(products_list, start=1):
         name = product['name']

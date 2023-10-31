@@ -4,17 +4,17 @@ import pymysql
 import json
 
 
-# import orders list
-with open("data/orders_list.json", 'r') as file:
-    orders_list = json.load(file)
+# # import orders list
+# with open("data/orders_list.json", 'r') as file:
+#     orders_list = json.load(file)
 
-#import products list
-with open("data/products_list.json", 'r') as file:
-    products_list = json.load(file)
+# #import products list
+# with open("data/products_list.json", 'r') as file:
+#     products_list = json.load(file)
     
-#import courier list
-with open("data/couriers_list.json", 'r') as file:
-    courier_list = json.load(file)
+# #import courier list
+# with open("data/couriers_list.json", 'r') as file:
+#     courier_list = json.load(file)
 
 
 load_dotenv()
@@ -59,7 +59,7 @@ try:
     
     # Commit the changes to the database
     conn.commit()
-    print("commit")
+    print("committed")
 
 
 except pymysql.Error as err:
