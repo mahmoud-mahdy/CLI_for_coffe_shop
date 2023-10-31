@@ -35,31 +35,6 @@ except pymysql.Error as err:
     print(f"Error: {err}")
 
 
-# import the product list
-cursor.execute("SELECT * FROM products_table")
-products = cursor.fetchall()
-products_list = [{"id":product[0] ,"name": product[1], "price": product[2]} for product in products]
-
-
-# import the courier list
-cursor.execute("SELECT * FROM couriers_table")
-couriers = cursor.fetchall()
-couriers_list = [{"id": courier[0], "name": courier[1], "phone": courier[2]} for courier in couriers]
-
-## import orders list
-with open("data/orders_list.json", 'r') as file:
-    orders_list = json.load(file)
-
-## import products list
-# with open("data/products_list.json", 'r') as file:
-#     products_list = json.load(file)
-
-
-## import courier list
-# with open("data/couriers_list.json", 'r') as file:
-#     courier_list = json.load(file)
-
-
 valid_options = []
 while True:
     # printing the menu and taking input
@@ -71,7 +46,7 @@ while True:
         print("App closed.")
         break
     
-    # 1- products menu   #!done
+    # 1- products menu  
     elif customer_input == "1":        
         while True:
             functions.display_product_menu()
@@ -95,7 +70,7 @@ while True:
                 print(f"{new_product_name} added successfully.")
                 time.sleep(1)
                 
-            # 1- 2- show product list  #! done
+            # 1- 2- show product list  
             elif customer_input == "2":
                 
                 cursor.execute("SELECT * FROM products_table")
@@ -105,7 +80,7 @@ while True:
                 functions.display_products_list(products_list, valid_options)
                 input("\npress enter to go to main menu.")
 
-            # 1- 3- rename a product  #! done
+            # 1- 3- rename a product  
             elif customer_input == "3":
                 
                 cursor.execute("SELECT * FROM products_table")
@@ -150,7 +125,7 @@ while True:
                     print("Invalid input. Please enter a valid product number.")
                     time.sleep(1)
             
-            # 1- 4- delete product #! done
+            # 1- 4- delete product 
             elif customer_input == "4":
                 
                 cursor.execute("SELECT * FROM products_table")
@@ -196,12 +171,12 @@ while True:
                 time.sleep(1)
 
     # 2- couriers menu  
-    elif customer_input == "2":  #! done
+    elif customer_input == "2":  
         while True:
             functions.display_courier_menu()
             customer_input = input("Please select an option: ")      
             
-            # 2- 1- creat new courier #! done
+            # 2- 1- creat new courier 
             if customer_input =="1":
                 
                 courier_name = input("please enter the new courier name: ")
@@ -223,7 +198,7 @@ while True:
                 print(f"{courier_name} added successfully.")
                 time.sleep(1)
             
-            # 2- 2- print couriers list #! done
+            # 2- 2- print couriers list 
             elif customer_input =="2":
                 
                 cursor.execute("SELECT * FROM couriers_table")
@@ -233,7 +208,7 @@ while True:
                 functions.display_courier_list(couriers_list, valid_options)
                 input("\npress enter to go to main menu.")
             
-            # 2- 3- rename courier #! done
+            # 2- 3- rename courier 
             elif customer_input == "3":
                 
                 cursor.execute("SELECT * FROM couriers_table")
@@ -281,7 +256,7 @@ while True:
                     print("Invalid input. Please enter a valid courier number.")
                     time.sleep(1)
             
-            # 2- 4- delete courier #! done
+            # 2- 4- delete courier 
             elif customer_input =="4":
                 valid_options.clear()
                 functions.display_courier_list(couriers_list, valid_options)
@@ -332,7 +307,7 @@ while True:
             functions.display_orders_menu()
             customer_input = input("Please select an option: ")
  
-            #3- 1- create new order    
+            #3- 1- create new order 
             if customer_input == "1":
                 customer_name = input("Please enter the customer name: ")
                 if not functions.check_valid_name(customer_name):
@@ -340,7 +315,7 @@ while True:
                 customer_address = input("Please enter the customer address: ")
                 if not functions.check_valid_name(customer_address):
                     continue
-                customer_phone_number = int( input ("Please enter the customer phone number: "))
+                customer_phone_number = input("Please enter the customer phone number: ")
                 if not functions.check_valid_phone_number(customer_phone_number):
                     continue
                 courier_num = input("Please enter the courier number: ")
@@ -349,25 +324,31 @@ while True:
                 items = input("Please enter the order's items: ")
                 if not functions.check_valid_name(items):
                     continue
-                new_customer = {
-                    "customer_name": customer_name,
-                    "customer_address": customer_address,
-                    "customer_phone": customer_phone_number,
-                    "courier": courier_num,
-                    "status": "preparing",
-                    "items": items
-                    } 
-                orders_list.append(new_customer)
+                
+                
+                sql = """INSERT INTO orders_table (CustomerName, CustomerAddress, CustomerPhone, Courier, Status, Items)
+                VALUES (%s, %s, %s, %s, %s, %s)"""
+                data = (customer_name, customer_address, customer_phone_number, courier_num, "preparing",items)
+                cursor.execute(sql, data)
+                conn.commit()
+                
                 print("Order added to the list successfully")
                 time.sleep(1)
                 
             #3- 2- Show order list 
             elif customer_input == "2":
+                
+                orders_list = functions.load_orders_list(cursor)
+                
+                print(orders_list)
                 functions.display_order_list(orders_list, valid_options)
                 input("\nPress Enter to go to the main menu.")
 
             #3- 3- update order status 
             elif customer_input == "3":
+                
+                orders_list = functions.load_orders_list(cursor)
+                
                 valid_options.clear()
                 functions.display_order_list(orders_list, valid_options)
                 print("0- cancel")
@@ -392,7 +373,13 @@ while True:
                     time.sleep(1)
                     
                     status_order_edit = input("please enter the order new status: ")
-                    orders_list[num_order_edit - 1]["status"] = status_order_edit
+                    
+                    sql = "UPDATE orders_table SET Status = %s WHERE OrdersID = %s"
+                    print(orders_list[num_order_edit - 1]["status"])
+                    data = (status_order_edit, orders_list[num_order_edit - 1]["id"])
+                    cursor.execute(sql, data)
+                    conn.commit()
+                    
                     print("Order status updated successfully")
                     time.sleep(1)
                     
@@ -402,6 +389,8 @@ while True:
             
             #3- 4- UPDATE order 
             elif customer_input == "4":
+                
+                orders_list = functions.load_orders_list(cursor)
                 
                 valid_options.clear()
                 functions.display_order_list(orders_list, valid_options)
@@ -439,12 +428,12 @@ while True:
                     items_order_edit = input(f"the old items ({orders_list[num_order_edit - 1]['items']}) please enter the order new items: ")
                     if not functions.check_valid_name(items_order_edit):
                         continue
-                    orders_list[num_order_edit - 1]["customer_name"] = name_order_edit
-                    orders_list[num_order_edit - 1]["customer_address"] = adress_order_edit
-                    orders_list[num_order_edit - 1]["customer_phone"] = phone_order_edit
-                    orders_list[num_order_edit - 1]["courier"] = courier_num_edit
-                    orders_list[num_order_edit - 1]["status"] = status_order_edit
-                    orders_list[num_order_edit - 1]["items"] = items_order_edit
+                    
+                    sql = """UPDATE orders_table SET CustomerName = %s, CustomerAddress = %s, CustomerPhone = %s, Courier = %s, Status = %s, Items = %s 
+                    WHERE OrdersID = %s """
+                    data = (name_order_edit, adress_order_edit, phone_order_edit, courier_num_edit, status_order_edit, items_order_edit, orders_list[num_order_edit - 1]["id"])
+                    cursor.execute(sql,data)
+                    conn.commit()
                     
                     print("Order updated successfully")
                     time.sleep(1)
@@ -456,6 +445,9 @@ while True:
                     
             #3- 5- delete order 
             elif customer_input == "5":
+                
+                orders_list = functions.load_orders_list(cursor)
+                
                 valid_options.clear()
                 functions.display_order_list(orders_list, valid_options)
                 print("0- cancel")
@@ -473,7 +465,14 @@ while True:
                     time.sleep(1)
                     
                 elif num_order_del in valid_options:
-                    del orders_list[int(num_order_del) - 1]
+                    
+                    sql = "DELETE FROM orders_table WHERE OrdersID = %s"
+                    data = (orders_list[num_order_del - 1]["id"])
+                    cursor.execute(sql, data)
+                    conn.commit()
+                    
+                    #del orders_list[int(num_order_del) - 1]
+                    
                     print("Order deleted successfully")
                     time.sleep(1)
                     
@@ -494,30 +493,3 @@ while True:
     else:
         print("invalid option. please select a number from the options above")
         time.sleep(1)
-
-
-# #save changes to products_list
-# with open("data/products_list.json", 'w') as file:
-#     json.dump(products_list, file)
-
-# #save changes to courier_list
-# with open("data/couriers_list.json", 'w') as file:
-#     json.dump(courier_list, file)
-
-for product in products_list:
-    update_query = "UPDATE products_table SET ProductsName = %s, ProductPrice = %s WHERE ProductsID  = %s"
-    data = (product["name"], product["price"], product["id"])  
-    cursor.execute(update_query, data)
-    conn.commit()
-
-for courier in couriers_list:
-    update_query = "UPDATE products_table SET ProductsName = %s, ProductPrice = %s WHERE ProductsID  = %s"
-    data = (product["name"], product["price"], product["id"])  
-    cursor.execute(update_query, data)
-    conn.commit()
-
-#save changes to orders_list  
-with open("data/orders_list.json", 'w') as file:
-    json.dump(orders_list, file)
-    
-

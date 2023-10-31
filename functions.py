@@ -152,3 +152,14 @@ def check_valid_courier(courier):
         print("process has been cancelled, courier number must be non negative numeric number.")
         time.sleep(1)
         return False
+
+def upload_orders_list(orders_list, cursor):
+    for order in orders_list:
+        cursor.execute("""INSERT INTO orders_table (CustomerName, CustomerAddress, CustomerPhone, Courier, Status, Items)
+                    VALUES (%s,%s,%s,%s,%s,%s)""", (order["customer_name"], order["customer_address"], order["customer_phone"], order["courier"], order["status"], order["items"]))
+        
+def load_orders_list(cursor):
+    cursor.execute("SELECT * FROM orders_table")
+    orders = cursor.fetchall()
+    orders_list = [{"id": order[0], "customer_name": order[1], "customer_address": order[2], "customer_phone": order[3], "courier": order[4], "status": order[5], "items": order[6]} for order in orders]
+    return orders_list

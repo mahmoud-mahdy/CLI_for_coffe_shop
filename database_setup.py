@@ -4,9 +4,9 @@ import pymysql
 import json
 
 
-# # import orders list
-# with open("data/orders_list.json", 'r') as file:
-#     orders_list = json.load(file)
+# import orders list
+with open("data/orders_list.json", 'r') as file:
+    orders_list = json.load(file)
 
 # #import products list
 # with open("data/products_list.json", 'r') as file:
@@ -41,11 +41,15 @@ try:
     
     ##? Execute SQL queries using the cursor
     #? making the table
-    # cursor.execute("""CREATE TABLE IF NOT EXISTS couriers_table (
-    # CouriersID int NOT NULL AUTO_INCREMENT,
-    # CouriersName varchar(255) NOT NULL,
-    # CouriersPhone varchar(15) NOT NULL,
-    # PRIMARY KEY (CouriersID));
+    # cursor.execute("""CREATE TABLE IF NOT EXISTS orders_table (
+    # OrdersID int NOT NULL AUTO_INCREMENT,
+    # CustomerName varchar(255) NOT NULL ,
+    # CustomerAddress varchar(255) NOT NULL,
+    # CustomerPhone varchar(15) NOT NULL,
+    # Courier int NOT NULL,
+    # Status varchar(255) NOT NULL,
+    # Items varchar(255),
+    # PRIMARY KEY (OrdersID));
     # """)
     
     #? inserting the data
@@ -55,6 +59,9 @@ try:
     #     """, (courier["name"], courier["phone"]))
     #     print(courier)
     
+    # for order in orders_list:
+    #     cursor.execute("""INSERT INTO orders_table (CustomerName, CustomerAddress, CustomerPhone, Courier, Status, Items)
+    #                 VALUES (%s,%s,%s,%s,%s,%s)""", (order["customer_name"], order["customer_address"], order["customer_phone"], order["courier"], order["status"], order["items"]))
     
     
     # Commit the changes to the database
