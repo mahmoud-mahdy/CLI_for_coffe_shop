@@ -1,0 +1,45 @@
+date and time,location,customer name,order items,total payment,payment method,card number,,,
+25/08/2021 09:00,Chesterfield,Richard Copeland,"Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45",5.2,CARD,5.49E+15,,,
+25/08/2021 09:02,Chesterfield,Scott Owens,"Large Flavoured iced latte - Caramel - 3.25, Regular Flavoured iced latte - Hazelnut - 2.75, Regular Flavoured iced latte - Caramel - 2.75, Large Flavoured iced latte - Hazelnut - 3.25, Regular Flavoured latte - Hazelnut - 2.55, Regular Flavoured iced latte - Hazelnut - 2.75",17.3,CARD,6.84E+15,,,
+25/08/2021 09:04,Chesterfield,Francis Strayhorn,"Large Flat white - 2.45, Regular Latte - 2.15",4.6,CARD,9.56E+15,,,
+25/08/2021 09:06,Chesterfield,Rodney Drake,"Regular Flavoured latte - Hazelnut - 2.55, Large Latte - 2.45",5,CARD,2.98E+15,,,
+25/08/2021 09:08,Chesterfield,Michael Sparrow,"Regular Latte - 2.15, Large Latte - 2.45",4.6,CASH,,,,
+25/08/2021 09:10,Chesterfield,Thomas Register,"Large Flavoured iced latte - Caramel - 3.25, Regular Flat white - 2.15, Regular Latte - 2.15, Large Flavoured iced latte - Hazelnut - 3.25, Regular Flat white - 2.15",12.95,CASH,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+order id (PK),date and time,location,customer iD,order items,order price,total payment,payment method,card number,
+1,25/08/2021 09:00,Chesterfield,1,Regular Flavoured iced latte - Hazelnut,2.75,5.2,CARD,5.49E+15,
+2,25/08/2021 09:00,Chesterfield,1,Large Latte,2.45,5.2,CARD,5.49E+15,
+3,25/08/2021 09:02,Chesterfield,2,Large Flavoured iced latte - Caramel,3.25,17.3,CARD,6.84E+15,
+3,25/08/2021 09:02,Chesterfield,2,Regular Flavoured iced latte - Hazelnut,2.75,17.3,CARD,6.84E+15,
+4,25/08/2021 09:02,Chesterfield,2,Regular Flavoured iced latte - Hazelnut,2.75,17.3,CARD,6.84E+15,
+5,25/08/2021 09:02,Chesterfield,2,Regular Flavoured latte - Hazelnut,2.55,17.3,CARD,6.84E+15,
+6,25/08/2021 09:02,Chesterfield,2,Large Flavoured iced latte - Hazelnut,3.25,17.3,CARD,6.84E+15,
+7,25/08/2021 09:02,Chesterfield,2,Regular Flavoured iced latte - Caramel,2.75,17.3,CARD,6.84E+15,
+8,25/08/2021 09:04,Chesterfield,3,Large Flat white,2.45,4.6,CARD,9.56E+15,
+9,25/08/2021 09:04,Chesterfield,3,Regular Latte,2.15,4.6,CARD,9.56E+15,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,final tables,,,,,,
+,,,,,,,,,
+order id (PK),date and time,customer id (FK),order items,order price,payment ID (FK),,payment ID (PK),payment method,card number
+1,25/08/2021 09:00,1,Regular Flavoured iced latte - Hazelnut,2.75,1,,1,CARD,5.49E+15
+2,25/08/2021 09:00,1,Large Latte,2.45,2,,2,CARD,5.49E+15
+3,25/08/2021 09:02,2,Large Flavoured iced latte - Caramel,3.25,3,,3,CARD,6.84E+15
+3,25/08/2021 09:02,2,Regular Flavoured iced latte - Hazelnut,2.75,4,,4,CARD,6.84E+15
+4,25/08/2021 09:02,2,Regular Flavoured iced latte - Hazelnut,2.75,5,,5,CARD,6.84E+15
+5,25/08/2021 09:02,2,Regular Flavoured latte - Hazelnut,2.55,6,,6,CARD,6.84E+15
+6,25/08/2021 09:02,2,Large Flavoured iced latte - Hazelnut,3.25,7,,7,CARD,6.84E+15
+7,25/08/2021 09:02,2,Regular Flavoured iced latte - Caramel,2.75,8,,8,CARD,6.84E+15
+8,25/08/2021 09:04,3,Large Flat white,2.45,9,,9,CARD,9.56E+15
+9,25/08/2021 09:04,3,Regular Latte,2.15,10,,10,CARD,9.56E+15
+,,,,,,,,,
+,,,,,,,,,
+,,customer id (PK),customer name,total payment,location,,,,
+,,1,Richard Copeland,5.2,Chesterfield,,,,
+,,2,Scott Owens,17.3,Chesterfield,,,,
+,,3,Francis Strayhorn,4.6,Chesterfield,,,,
