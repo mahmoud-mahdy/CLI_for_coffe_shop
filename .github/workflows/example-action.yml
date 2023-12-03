@@ -7,7 +7,7 @@ on:
 
 jobs:
   list-repo-files:
-    name: Count Lines of Code
+    name: count lines of codes
     runs-on: ubuntu-latest
 
     steps:
