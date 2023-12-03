@@ -1,4 +1,4 @@
-name: list-repo
+name: count lines of codes
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   list-repo-files:
-    name: count lines of codes
+    name: List files in repository
     runs-on: ubuntu-latest
 
     steps:
