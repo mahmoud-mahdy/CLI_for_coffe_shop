@@ -24,5 +24,5 @@ jobs:
 
       - name: Count Lines of Code
         run: |
-          pygount --format=table main.py
+          pygount --format=summary main.py
 
