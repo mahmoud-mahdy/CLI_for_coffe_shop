@@ -3,14 +3,26 @@ name: list-repo
 on:
   push:
     branches:
-      main
+      - main
 
 jobs:
   list-repo-files:
     name: List files in repository
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout-repo
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: list-dir
-        run: ls -laR # Recursively list directory contents
+
+      - name: List Directory
+        run: |
+          find . -type f
+
+      - name: Install pygount
+        run: |
+          python -m pip install pygount
+
+      - name: Count Lines of Code
+        run: |
+          pygount .
+
