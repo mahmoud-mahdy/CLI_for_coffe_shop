@@ -1,5 +1,5 @@
 ## Project Background:
-command-line interface-based system for a coffee shop to manage orders.
+This CLI-based application is designed for managing a coffee shop. It streamlines the handling of products, couriers, and orders, providing an efficient system for coffee shop operations.
 
 # Client requirements:
 three menus for products, couriers and orders
