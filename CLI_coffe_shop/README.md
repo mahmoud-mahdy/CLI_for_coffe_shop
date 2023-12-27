@@ -1,4 +1,5 @@
 ## Project Background:
+The project was done during my boot camp course in generations UK and Ireland.
 The CLI Coffee Shop Management System is a Python-based application designed to manage the daily operations of a coffee shop. It offers a user-friendly command-line interface for efficient management of products, couriers, and orders.
 
 # Client requirements:
