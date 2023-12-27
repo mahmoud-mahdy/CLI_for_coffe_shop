@@ -1,17 +1,17 @@
 ## Project Background:
 command-line interface-based system for a coffee shop to manage orders.
 
-## Client requirements:
+# Client requirements:
 three menus for products, couriers and orders
 a client can add, inspect, edit and remove each of the products list, couriers list and orders list.
 data persistence data saved in files or in a database (MySQL).
 to use files to save dates please go to branch "week-5" and to use MYSQL database use the main branch and compose up the docker container
 
-## How to run the app
+# How to run the app
 method one: can be run using Python on the command line or any other IDE
 method two: can be run using the stand-alone file (..\dist\main\main)
 
-## Testing
+# Testing
 pytest is used to run unit tests as proof of concept however projects have been tested fully through manual testing.
 
 ## Project Reflections
