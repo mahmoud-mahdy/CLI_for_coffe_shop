@@ -1,0 +1,95 @@
+name: Zip and Push Code
+on:
+  push:
+    branches:
+      - main
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  zip_and_push:
+    runs-on: ubuntu-latest
+    outputs:
+      zip_file: ${{ steps.prepare_zip.outputs.zip_file }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        # with:
+        #   repository: Hassanraza72/team-2-project
+        #   path: team-2-project
+      
+      - name: Zip Code
+        id: prepare_zip
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          ZIP_FILE="code_$TIMESTAMP.zip"
+          echo "ZIP_FILE=$ZIP_FILE" >> $GITHUB_ENV
+          zip -r $ZIP_FILE ETL.py
+          
+          echo "zip_file=$ZIP_FILE" >> $GITHUB_STEP_SUMMARY
+          echo "zip_file=$ZIP_FILE" >> $GITHUB_OUTPUT
+      - name: change bucket name and listing files
+        run: |
+          chmod +x ./make.sh 
+          ./make.sh $ZIP_FILE
+          ls -l
+      - name: zipping code formation 
+        run: |
+          cp format.yaml form.yaml
+      
+      - name: Echo ZIP_FILE
+        run: |
+          echo "ZIP_FILE is set to '${{ env.ZIP_FILE }}'"
+          ls -l  # List files for debugging
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-artifact
+          path: ${{ env.ZIP_FILE }}
+      - name: Upload Artifact2
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-artifact
+          path: form.yaml
+          if-no-files-found: warn
+      - name: Display form.yaml Content
+        run: cat form.yaml
+      - name: Display format Content
+        run: cat format.yaml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: zip_and_push
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: code-artifact
+      - name: List Extracted Files
+        run: ls -laR
+      - name: Configure AWS credentials using federated role
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.ROLE_ARN }}
+          aws-region: eu-west-1
+      - name: List S3 buckets to test credentials
+        run: aws s3 ls
+      - name: Upload zip code to s3
+        run: aws s3 cp ${{ needs.zip_and_push.outputs.zip_file }} s3://hassan786
+      - name: Display file path
+        run: echo "File path $GITHUB_WORKSPACE/format.yaml"
+      - name: Debug Information
+        run: |
+          echo "GitHub Workspace: $GITHUB_WORKSPACE/form.yaml"
+          echo "Current Directory: $(pwd)"
+          ls -lRa ../..
+      - name: Deploy
+        run: |
+          aws cloudformation deploy \
+          --stack-name deploymentstack \
+          --template-file form.yaml \
+          --capabilities CAPABILITY_IAM \
+          --parameter-overrides LambdaFunctionName=DataXcelerators_lambda CodeS3Bucket=hassan786 CodeS3Key=${{ needs.zip_and_push.outputs.zip_file }} \
+          --region eu-west-1

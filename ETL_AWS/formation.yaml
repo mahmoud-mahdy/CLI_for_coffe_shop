@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  lambdafunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: DataXcelerator_lambda
+      Runtime: python3.8
+      Handler: ETL.lambda_handler
+      Role: arn:aws:iam::476844305051:role/lambda-execution-role
+      Code:
+        S3Bucket: hassan786
+        S3Key: k
+
+  
