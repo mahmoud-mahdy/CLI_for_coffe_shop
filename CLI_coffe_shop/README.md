@@ -1,4 +1,5 @@
 ## Project Background:
+The project was done during my boot camp course in generations UK and Ireland.
 The CLI Coffee Shop Management System is a Python-based application designed to manage the daily operations of a coffee shop. It offers a user-friendly command-line interface for efficient management of products, couriers, and orders.
 
 # Client requirements:
@@ -10,6 +11,7 @@ to use files to save dates please go to branch "week-5" and to use MYSQL databas
 # How to run the app
 method one: can be run using Python on the command line or any other IDE
 method two: can be run using the stand-alone file (..\dist\main\main)
+please note that the MYSQL database has to be working you can use the docker file to compose up the database container
 
 # Testing
 pytest is used to run unit tests as proof of concept however projects have been tested fully through manual testing.
