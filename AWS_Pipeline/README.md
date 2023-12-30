@@ -6,15 +6,6 @@ This full End-to-End ETL pipeline was developed for Cafehub chain. The objective
 ## The technical architecture
 <img width="594" alt="ar" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/c0164b2f-a965-4251-8679-91ccc7e3c591">
 
-## How to run the project:
-
-1. Clone project (repository)
-2. Pip install requirements.txt
-3. Run formation.yaml
-4. Log in to AWS account
-5. Set up date for Redshift connection
-6. Connect to Grafana
-7. Create visualisation and monitor metrics in Garfana.
 
 
 ## Visualisation
