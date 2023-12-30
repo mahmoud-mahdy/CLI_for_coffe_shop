@@ -1,6 +1,6 @@
 # Project Background
 
-This full End-to-End ETL  ETL pipeline was developed for Cafehub chain. The objective was to create a comprehensive data pipeline system designed to streamline and manage orders across multiple branches of coffee shops. This system gives us the opportunity to receive, process, and store CSV files in the AWS Redshift warehouse, incorporating powerful visualization through Grafana to monitor and analyze order data from various branches. The objective was to create a comprehensive ETL solution using PostgreSQL, Docker, and Python. This system includes features like data extraction, Data Transformation and data loading into AWS Redshift warehouse.
+This full End-to-End ETL pipeline was developed for Cafehub chain. The objective was to create a comprehensive data pipeline system designed to streamline and manage orders across multiple branches of coffee shops. when uploading the data to s3 bucket the pipline from there starts as explained in the diagram the data gets processed, clean, normalised and sent to Redshift warehouse additionaly powerful visualization through Grafana to monitor and analyze order is added to the system to show the data from all the branches so it can analysed.
 
 
 ## The technical architecture
@@ -41,7 +41,3 @@ Example. Report whether the instance has passed both the instance status check a
 <img width="153" alt="Screenshot 2023-12-13 154502" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/e2d27f75-9908-4dbf-85f0-6531b2ba7da6">
 <img width="176" alt="Screenshot 2023-12-13 154522" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/919eda8c-e7bf-4552-8598-a7ccd24fb7a6">
 <img width="123" alt="Screenshot 2023-12-13 163220" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/cbc8444a-91eb-491b-b43a-847012b9d77b">
-
-## Contact
-
-DataXcelerator
