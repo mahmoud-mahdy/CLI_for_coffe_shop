@@ -10,7 +10,9 @@ Tasks: develop a machine learning model to predict the likelihood of a patient h
 ## Results:
 reached a prediction accuracy of 77.8% using the random forest algorithm and the results demonstrated the effectiveness of the random forest algorithm in handling the classification problem.
 
-## overview:
+## Overview:
 ⦁	preprocessing of the data such as removing the ID attribute, ignoring the missing,.etc.
+
 ⦁	analysing the dataset and identifying the attributes that affect the likelihood of having a stroke.
+
 ⦁	several classification algorithms, including random forest, gradient-boosted trees, and probabilistic neural networks, were implemented, and their performance was compared to determine the best algorithm 
