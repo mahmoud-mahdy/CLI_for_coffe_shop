@@ -1,5 +1,5 @@
 ## Project:
-Machine learning predictive model
+Machine learning predictive models
 
 ![2](https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/aa03d623-f6dd-4d63-91c7-0145ccb9e31d)
 
