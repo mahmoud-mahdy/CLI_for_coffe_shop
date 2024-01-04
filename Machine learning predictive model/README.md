@@ -5,7 +5,7 @@ Machine learning predictive models
 develop a machine learning model to predict the likelihood of a patient having a stroke. The dataset used consisted of 5110 patients with 12 attributes, including age, gender, hypertension, heart disease, and smoking status, among others.
 
 ## Overview:
-Knime graphical user interface (GUI) has been used to develop the models therefore no code is provided in the repository. 
+Knime software - graphical user interface (GUI) has been used to develop the models therefore no code is provided in the repository. 
 
 ⦁	preprocessing of the data such as removing the ID attribute, ignoring the missing,.etc.
 
