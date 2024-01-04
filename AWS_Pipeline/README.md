@@ -18,7 +18,7 @@ The data received in the CSV file gets processed and normalised as shown in the 
 ![Screenshot 2024-01-04 233145](https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/2b6db6b9-20e2-4024-8cd9-04c38d81d905)
 
 
-## Tools and technology we used
+## Tools and technology used
 <img width="249" alt="Screenshot 2023-12-13 154251" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/faa25c6b-a843-4b4d-8987-c2e93aa949c2">
 <img width="134" alt="Screenshot 2023-12-13 154308" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/5d02c04b-2a14-4ad8-9bad-f6c9c23ab80d">
 <img width="219" alt="Screenshot 2023-12-13 154208" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/b918912b-ba10-4476-a405-5f773aaa5fa3">
