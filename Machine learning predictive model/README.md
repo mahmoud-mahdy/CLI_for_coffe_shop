@@ -6,6 +6,7 @@ develop a machine learning model to predict the likelihood of a patient having a
 
 ## Overview:
 Knime graphical user interface (GUI) has been used to develop the models therefore no code is provided in the repository. 
+
 ⦁	preprocessing of the data such as removing the ID attribute, ignoring the missing,.etc.
 
 ⦁	analysing the dataset and identifying the attributes that affect the likelihood of having a stroke.
