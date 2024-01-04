@@ -6,6 +6,9 @@ This full End-to-End ETL pipeline was developed for Cafehub chain. The objective
 ## The technical architecture
 <img width="594" alt="ar" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/c0164b2f-a965-4251-8679-91ccc7e3c591">
 
+## Final product
+The following video shows the final product which is the data shown in graphs on Grafana that is connected to Redshift and shows the pipeline working through adding new data to the pipeline
+https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/946dec27-6188-4d18-8b00-edfb6a7ea242
 
 
 ## Visualisation
