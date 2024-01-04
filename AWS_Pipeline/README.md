@@ -12,17 +12,10 @@ The following video shows the final product which is the data shown in graphs on
 https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/946dec27-6188-4d18-8b00-edfb6a7ea242
 
 
-## Visualisation
+## ETL process:
 
-In our project, Grafana is implemented for various visualizations aimed at monitoring different aspects.
-For a business analyst, this might involve visualizing the top 10 selling products.
+![Screenshot 2024-01-04 233145](https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/2b6db6b9-20e2-4024-8cd9-04c38d81d905)
 
-<img width="467" alt="top 10 products" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/68f026d9-031d-4911-9caf-ee52633501ea">
-
-On the technical side, we can generate reports to check that infrastructure is performing correctly. So we know if we need to make any changes.
-Example. Report whether the instance has passed both the instance status check and the system status check within the last minute.
-
-<img width="477" alt="EC2" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/3769d13e-3c88-4399-aaa5-10ef9da31f55">
 
 ## Tools and technology we used
 <img width="249" alt="Screenshot 2023-12-13 154251" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/faa25c6b-a843-4b4d-8987-c2e93aa949c2">
