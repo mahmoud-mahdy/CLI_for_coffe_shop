@@ -54,7 +54,7 @@ please note that the MYSQL database has to be working you can use the docker fil
 pytest is used to run unit tests as proof of concept however projects have been tested fully through manual testing.
 
 ### Project Reflections
-# How did your design go about meeting the project's requirements?
+### How did your design go about meeting the project's requirements?
 meet all requirements within the deadline.
 
 ### If you had more time, what is one thing you would improve upon?
