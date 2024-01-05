@@ -14,8 +14,8 @@ The following video shows the final product which is the data shown in graphs on
 https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/946dec27-6188-4d18-8b00-edfb6a7ea242
 
 
-### ETL process:
-The data received in the CSV file gets processed and normalised as shown in the graph.
+### Normalisation process:
+the following graph shows the normalisation process and how the data transforms from the left to the right forum before being stored in the database.
 
 ![Screenshot 2024-01-04 233145](https://github.com/mahmoud-mahdy/My_Portfolio/assets/121267693/2b6db6b9-20e2-4024-8cd9-04c38d81d905)
 
