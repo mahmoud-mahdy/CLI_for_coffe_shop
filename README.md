@@ -5,7 +5,7 @@
 This full End-to-End ETL pipeline was developed for the Cafehub chain. The objective was to create a comprehensive data pipeline system designed to streamline and manage orders across multiple branches of coffee shops. when uploading the data to the s3 bucket the pipeline from there starts as explained in the diagram the data gets processed, cleaned, normalised and sent to the Redshift warehouse additionally powerful visualization through Grafana to monitor and analyze orders is added to the system to show the data from all the branches so it can be analysed.
 
 
-### The technical architecture
+### The Pipeline architecture
 <img width="594" alt="ar" src="https://github.com/DE-X5-LLE/team-2-project/assets/147624401/c0164b2f-a965-4251-8679-91ccc7e3c591">
 
 ### Final product
