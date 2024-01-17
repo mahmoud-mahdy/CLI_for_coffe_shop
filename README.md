@@ -95,6 +95,7 @@ how the backtracking algorithm works:
 
 ⦁ Finding an Empty Cell:
 The algorithm locates an empty cell on the Sudoku board. If none exists, the puzzle is considered solved; otherwise, an empty cell is chosen.
+
 ⦁ Attempting Possible Solutions:
 
 It systematically tries numbers from 1 to 9 in the selected cell, verifying each against Sudoku rules. If a valid number is found, the process continues to the next empty cell; otherwise, it backtracks.
