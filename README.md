@@ -82,7 +82,7 @@ reached a prediction accuracy of 77.8% using the random forest algorithm and the
 
 The "Sudoku Solver" is a Python script developed as a personal project to enhance my programming skills in Python during my free time. This project focuses on efficiently solving Sudoku puzzles using a backtracking algorithm.
 
-How to Use:
+### How to Use:
 
 ⦁ Input Puzzle: Define the 'board' variable with the Sudoku puzzle, inserting '0' for empty cells.
   
@@ -90,7 +90,7 @@ How to Use:
 
 ⦁ View Solution: The completed Sudoku solution is displayed through the 'print_board' function
 
-how the backtracking algorithm works:
+### how the backtracking algorithm works:
 
 ⦁ Finding an Empty Cell: The algorithm locates an empty cell on the Sudoku board. If none exists, the puzzle is considered solved; otherwise, an empty cell is chosen.
 
