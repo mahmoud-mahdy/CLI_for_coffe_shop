@@ -1,15 +1,16 @@
 import json
 import requests
 import matplotlib.pyplot as plt
+import base64
 
 with open('ebay_config.json', 'r') as file:
     credentials = json.load(file)
 
 def get_fresh_token():
     # Placeholder values
-    refresh_token = 'your_refresh_token_here'
-    client_id = 'your_client_id_here'
-    client_secret = 'your_client_secret_here'
+    refresh_token = 'credentials[token]'
+    client_id = 'credentials[App_ID]'
+    client_secret = 'credentials[Cert_ID]'
 
     # Prepare the request for refreshing the token
     headers = {
@@ -21,6 +22,7 @@ def get_fresh_token():
         'refresh_token': refresh_token,
         'scope': 'https://api.ebay.com/oauth/api_scope'  # Adjust scope as needed
     }
+    
     response = requests.post('https://api.ebay.com/identity/v1/oauth2/token', headers=headers, data=data)
 
     # Handle the response
@@ -30,7 +32,15 @@ def get_fresh_token():
         return new_token
     else:
         # Handle error (e.g., logging, retrying, alerting)
-        raise Exception("Failed to refresh token")
+        error_message = response.json().get('error_description', 'Unknown error')
+        raise Exception(f"Failed to refresh token: {error_message}")
+
+# Example usage:
+try:
+    fresh_token = get_fresh_token()
+    print(f"New Access Token: {fresh_token}")
+except Exception as e:
+    print(str(e))
 
 def fetch_iphone_14_list():
     headers = {
@@ -73,5 +83,5 @@ def plot_boxplot(x):
 
 if __name__ == "__main__":
     get_fresh_token()
-    fetch_iphone_14_list()
-    plot_boxplot(price_list)
+    # fetch_iphone_14_list()
+    # plot_boxplot(price_list)
