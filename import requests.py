@@ -15,7 +15,7 @@ headers = {
 
 # Construct the API endpoint
 query = 'iphone 14'  # Search query
-limit = 300  # Limit the number of results
+limit = 100  # Limit the number of results
 
 url = f'https://api.ebay.com/buy/browse/v1/item_summary/search?q={query}&limit={limit}' # item_summary/search only look for buy now items no auctions
 
