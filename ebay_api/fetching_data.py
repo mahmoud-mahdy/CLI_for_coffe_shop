@@ -1,7 +1,9 @@
 import json
+import csv
 import requests
 import matplotlib.pyplot as plt
 import base64
+import os
 
 with open('ebay_config.json', 'r') as file:
     credentials = json.load(file)
@@ -35,12 +37,7 @@ def get_fresh_token():
         error_message = response.json().get('error_description', 'Unknown error')
         raise Exception(f"Failed to refresh token: {error_message}")
 
-# Example usage:
-try:
-    fresh_token = get_fresh_token()
-    print(f"New Access Token: {fresh_token}")
-except Exception as e:
-    print(str(e))
+
 
 def fetch_iphone_14_list():
     headers = {
@@ -50,38 +47,50 @@ def fetch_iphone_14_list():
 }
     # Construct the API endpoint
     query = 'iphone 14'  # Search query
-    limit = 100  # Limit the number of results
-    url = f'https://api.ebay.com/buy/browse/v1/item_summary/search?q={query}&limit={limit}&filter=condition:{{"used"}}' # item_summary/search only look for buy now items no auctions
+    limit = 100  #? ebay only allow maximum of 200
+    url = f'https://api.ebay.com/buy/browse/v1/item_summary/search?q={query}&limit={limit}' # item_summary/search only look for buy now items no auctions
 
     response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
-        data = response.json()
+        dict = {}
+        json_list = response.json()
         
-        global price_list
-        price_list = []
         
-        count = 1
-        print(json.dumps(data, indent=4))
-        for item in data['itemSummaries']:
-            # print(f"{count}: {item['title']} --> {item['price']['value']} {item['price']['currency']}")
-            price_list.append(float(item['price']['value']))
-            count += 1
+        fieldnames=['itemId', 'title', 'price', 'shipping cost', 'seller', 'seller feedback Percentage', 'seller feedback Score', 'seller', 'condition', 'URL']
+        with open('iphone_14_list.csv', mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+                       
+        for item in json_list['itemSummaries']:
+            dict['itemId'] = item['itemId']
+            dict['title'] = item['title']
+            dict['price'] = item['price']['value']
+            dict['shipping cost'] = item['shippingOptions'][0]['shippingCost']['value']
+            # dict['location'] = item['itemLocation']['postalCode']
+            dict['seller'] = item['seller']['username']
+            dict['seller feedback Percentage'] = item['seller']['feedbackPercentage']
+            dict['seller feedback Score'] = item['seller']['feedbackScore']
+            dict['seller'] = item['seller']['sellerAccountType']
+            dict['condition'] = item['condition']
+            dict['URL'] = item['itemWebUrl']
+            
+            with open('iphone_14_list.csv', mode='a', newline='', encoding='utf-8') as file:
+                writer = csv.DictWriter(file, fieldnames=dict.keys())
+                writer.writerow(dict)
+            
+        
+        
+        
     else:
         print(f"Failed to retrieve data: {response.status_code} - {response.text}")
 
 
-
-def plot_boxplot(x):
-    
-    plt.boxplot(x)
-
-    plt.title('Price Distribution for the Item')
-    plt.ylabel('Price')
-
-    plt.show()
-
 if __name__ == "__main__":
-    get_fresh_token()
-    # fetch_iphone_14_list()
+    # try:
+    #     fresh_token = get_fresh_token()
+    #     print(f"New Access Token: {fresh_token}")
+    # except Exception as e:
+    #     print(str(e))
+    fetch_iphone_14_list()
     # plot_boxplot(price_list)
