@@ -1,61 +1,85 @@
-
 import os
+from dotenv import load_dotenv
 
 from airflow.models import TaskInstance
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
+from airflow.providers.google.cloud.operators.bigquery import (BigQueryCreateExternalTableOperator,
+    BigQueryInsertJobOperator)
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
 from airflow.utils.dates import days_ago
 
-
-PROJECT_ID = 'cryptic-smile-413720'
-DATASET_NAME = 'MovieLens'
-BUCKET_NAME = 'data_lake_231'
-
-def transfer_files_to_bigquery(**context):
-    # Initialize the operator
-    list_files_output = context['ti'].xcom_pull(task_ids='list_files')
-    for file in list_files_output:
-        file = file.replace("pq/", "")
-    
-        transfer_files_to_bigquery  = GCSToBigQueryOperator(
-            task_id='transfer_files_to_bigquery',
-            bucket=BUCKET_NAME,
-            source_objects="pq/*.parquet",
-            destination_project_dataset_table=f'{DATASET_NAME}.{DATASET_NAME}.{file}',
-            source_format="PARQUET",
-            gcp_conn_id='gcloud',
-            autodetect=True
-        )
-        
-    
-
-default_args = {'owner': 'airflow',
-        'start_date': days_ago(1),
-        'retries': 0,
-        'max_active_runs':1
-        }
+load_dotenv()
 
 
-with DAG(dag_id='gsc_to_bg_dag',
-        schedule_interval="@daily",
-        default_args=default_args,
+PROJECT_ID = os.environ.get("PROJECT_ID")
+DATASET_NAME = os.environ.get("DATASET_NAME")
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
+
+path_to_local_home = os.environ.get("AIRFLOW_HOME", "/opt/airflow/")
+BIGQUERY_DATASET = os.environ.get("BIGQUERY_DATASET", 'trips_data')
+
+DATASET = "citibike_tripdata"
+PARTITION_COL = 'starttime'
+CLUSTER_COL = 'bikeid'
+INPUT_PART = "raw"
+INPUT_FILETYPE = "parquet"
+
+default_args = {
+    "owner": "airflow",
+    "start_date": days_ago(1),
+    "depends_on_past": False,
+    "retries": 1,
+}
+
+# NOTE: DAG declaration - using a Context Manager (an implicit way)
+with DAG(
+    dag_id="gcs_to_bq_dag",
+    schedule_interval="@daily",
+    default_args=default_args,
+    catchup=False,
+    max_active_runs=1,
+    tags=['city-bikes'],
 ) as dag:
 
-    # read files in gsc
-    list_files = GCSListObjectsOperator(
-        task_id='list_files',
-        bucket=BUCKET_NAME,
-        prefix='pq/',
-        gcp_conn_id='gcloud'
+    bigquery_external_table_task = BigQueryCreateExternalTableOperator(
+        task_id=f"bq_{DATASET}_external_table_task",
+        table_resource={
+            "tableReference": {
+                "projectId": PROJECT_ID,
+                "datasetId": BIGQUERY_DATASET,
+                "tableId": f"{DATASET}_external_table",
+            },
+            "externalDataConfiguration": {
+                "autodetect": "True",
+                "sourceFormat": f"{INPUT_FILETYPE.upper()}",
+                "sourceUris": [
+                    f"gs://{BUCKET}/city_bikes_trips/2018/*.{INPUT_FILETYPE}",
+                    f"gs://{BUCKET}/city_bikes_trips/2019/*.{INPUT_FILETYPE}",
+                    f"gs://{BUCKET}/city_bikes_trips/2020/*.{INPUT_FILETYPE}",
+                ],
+            },
+        },
     )
 
-    
-    run_transfer = PythonOperator(
-    task_id='move_pq_files_to_bigquery',
-    python_callable=transfer_files_to_bigquery,
+    CREATE_BQ_TBL_QUERY = (
+        f"CREATE OR REPLACE TABLE {BIGQUERY_DATASET}.{DATASET} \
+        PARTITION BY DATE({PARTITION_COL}) \
+        CLUSTER BY {CLUSTER_COL} AS \
+        SELECT * FROM {BIGQUERY_DATASET}.{DATASET}_external_table;"
     )
-        
-    list_files >> run_transfer
+
+    # Create a partitioned and clustered table from external table
+    bq_create_partitioned_table_job = BigQueryInsertJobOperator(
+        task_id=f"bq_create_{DATASET}_optimized_table_task",
+        configuration={
+            "query": {
+                "query": CREATE_BQ_TBL_QUERY,
+                "useLegacySql": False,
+            }
+        }
+    )
+
+    bigquery_external_table_task >> bq_create_partitioned_table_job
