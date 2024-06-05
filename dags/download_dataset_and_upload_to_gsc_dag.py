@@ -1,4 +1,3 @@
-# get data from link to gcs
 import os
 import logging
 import shutil
@@ -49,7 +48,7 @@ default_args = {'owner': 'airflow',
 
 
 with DAG(dag_id='download_dataset_and_upload_to_gsc_dag',
-        schedule_interval="@daily",
+        schedule_interval="@monthly",
         default_args=default_args,
 ) as dag:
 

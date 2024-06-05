@@ -1,85 +1,61 @@
 import os
 from dotenv import load_dotenv
 
-from airflow.models import TaskInstance
+from airflow.providers.google.cloud.hooks.gcs import GCSHook
+from google.cloud import storage
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.operators.bash import BashOperator
-from airflow.providers.google.cloud.operators.bigquery import (BigQueryCreateExternalTableOperator,
-    BigQueryInsertJobOperator)
-from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
-from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator
 from airflow.utils.dates import days_ago
 
 load_dotenv()
 
-
 PROJECT_ID = os.environ.get("PROJECT_ID")
 DATASET_NAME = os.environ.get("DATASET_NAME")
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
-
-path_to_local_home = os.environ.get("AIRFLOW_HOME", "/opt/airflow/")
-BIGQUERY_DATASET = os.environ.get("BIGQUERY_DATASET", 'trips_data')
-
-DATASET = "citibike_tripdata"
-PARTITION_COL = 'starttime'
-CLUSTER_COL = 'bikeid'
-INPUT_PART = "raw"
-INPUT_FILETYPE = "parquet"
+      
 
 default_args = {
     "owner": "airflow",
     "start_date": days_ago(1),
     "depends_on_past": False,
-    "retries": 1,
 }
 
-# NOTE: DAG declaration - using a Context Manager (an implicit way)
+
 with DAG(
     dag_id="gcs_to_bq_dag",
-    schedule_interval="@daily",
+    schedule_interval="@monthly",
     default_args=default_args,
-    catchup=False,
     max_active_runs=1,
-    tags=['city-bikes'],
 ) as dag:
-
-    bigquery_external_table_task = BigQueryCreateExternalTableOperator(
-        task_id=f"bq_{DATASET}_external_table_task",
-        table_resource={
+    
+    
+    gsc_to_bq_tasks = []
+    gcs_hook = GCSHook(gcp_conn_id='gcloud')
+    client = storage.Client(credentials=gcs_hook.get_credentials()) #!
+    bucket = client.bucket(BUCKET_NAME)
+    prefix = 'pq/'
+    blobs = bucket.list_blobs(prefix=prefix)
+    
+    for blob in blobs:
+        file_name = blob.name
+        file_name = file_name.replace('pq/','')
+        file_name = file_name.replace('.parquet','')
+        
+        bigquery_external_table_task = BigQueryCreateExternalTableOperator(
+            task_id=f"bq_{file_name}_external_table_task",
+            table_resource={
             "tableReference": {
                 "projectId": PROJECT_ID,
-                "datasetId": BIGQUERY_DATASET,
-                "tableId": f"{DATASET}_external_table",
+                "datasetId": DATASET_NAME,
+                "tableId": f"{file_name}_external_table"
             },
             "externalDataConfiguration": {
                 "autodetect": "True",
-                "sourceFormat": f"{INPUT_FILETYPE.upper()}",
-                "sourceUris": [
-                    f"gs://{BUCKET}/city_bikes_trips/2018/*.{INPUT_FILETYPE}",
-                    f"gs://{BUCKET}/city_bikes_trips/2019/*.{INPUT_FILETYPE}",
-                    f"gs://{BUCKET}/city_bikes_trips/2020/*.{INPUT_FILETYPE}",
-                ],
-            },
-        },
-    )
-
-    CREATE_BQ_TBL_QUERY = (
-        f"CREATE OR REPLACE TABLE {BIGQUERY_DATASET}.{DATASET} \
-        PARTITION BY DATE({PARTITION_COL}) \
-        CLUSTER BY {CLUSTER_COL} AS \
-        SELECT * FROM {BIGQUERY_DATASET}.{DATASET}_external_table;"
-    )
-
-    # Create a partitioned and clustered table from external table
-    bq_create_partitioned_table_job = BigQueryInsertJobOperator(
-        task_id=f"bq_create_{DATASET}_optimized_table_task",
-        configuration={
-            "query": {
-                "query": CREATE_BQ_TBL_QUERY,
-                "useLegacySql": False,
-            }
-        }
-    )
-
-    bigquery_external_table_task >> bq_create_partitioned_table_job
+                "sourceFormat": "PARQUET",
+                "sourceUris": [f"gs://{BUCKET_NAME}/pq/{file_name}.parquet"]
+            }},
+            gcp_conn_id='gcloud'
+        )
+        gsc_to_bq_tasks.append(bigquery_external_table_task)
+     
+    gsc_to_bq_tasks
