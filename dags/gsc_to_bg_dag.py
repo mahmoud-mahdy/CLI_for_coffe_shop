@@ -31,7 +31,7 @@ with DAG(
     
     gsc_to_bq_tasks = []
     gcs_hook = GCSHook(gcp_conn_id='gcloud')
-    client = storage.Client(credentials=gcs_hook.get_credentials()) #!
+    client = storage.Client(credentials=gcs_hook.get_credentials())
     bucket = client.bucket(BUCKET_NAME)
     prefix = 'pq/'
     blobs = bucket.list_blobs(prefix=prefix)
