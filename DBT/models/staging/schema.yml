@@ -1,0 +1,15 @@
+version: 2
+
+
+sources:
+  - name: staging
+    database: cryptic-smile-413720
+    schema: MovieLens
+    
+    tables:
+      - name: genome-scores_external_table
+      - name: genome-tags_external_table
+      - name: links_external_table
+      - name: movies_external_table
+      - name: ratings_external_table
+      - name: tags_external_table
