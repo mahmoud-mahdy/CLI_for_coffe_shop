@@ -7,7 +7,11 @@ with genome_score as
     where movieid is not null
 )
 
-select * 
+select 
+
+    cast(movieid as numeric),
+    cast(tagid as numeric),
+    cast(relevance as float)
 from genome_score
 where rn = 1
 
