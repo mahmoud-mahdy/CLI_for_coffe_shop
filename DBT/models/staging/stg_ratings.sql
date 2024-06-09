@@ -17,8 +17,8 @@ where
 
 select
     cast(userid as NUMERIC) as userId,
-    cast(movieid as numeric) as movieId,
-    cast(rating as numeric) as rating,
+    cast(movieid as NUMERIC) as movieId,
+    cast(rating as NUMERIC) as rating,
     timestamp_seconds(timestamp) AS timestamp
 
 from 
