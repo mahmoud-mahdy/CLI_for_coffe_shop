@@ -21,7 +21,7 @@ where
 select
     cast(userid as numeric) as userId,
     cast(movieid as numeric) as movieId,
-    cast(tag as string) as tag,
+    cast(tag as STRING) as user_tag,
     timestamp_seconds(timestamp) as timestamp
 from
     tags

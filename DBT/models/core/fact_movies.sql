@@ -1,19 +1,7 @@
 {{config(materialized='table')}}
 
 
-with genome_scores as
-(
-select *
-from {{ ref('stg_genome-scores') }}
-),
-
-genome_tags as
-(
-select *
-from {{ ref('stg_genome-tags') }}
-),
-
-links as
+with links as
 (
 select *
 from {{ ref('stg_links') }}
@@ -37,13 +25,11 @@ select *
 from {{ ref('stg_tags') }}
 )
 
-select
-    gs.movieId,
-    gt.tag,
-    gs.relevance
-from
-    genome_scores gs
-right join
-    genome_tags gt on gs.tagId = gt.tagId
+select rating.userId, rating.rating, movies.title, movies.genres, rating.timestamp, tags.user_tag, links.imdbid, links.tmdbid
+from rating
+inner join movies on rating.movieId = movies.movieId
+inner join links on movies.movieId = links.movieId
+inner join tags on rating.userId = tags.userId
+
 
 -- dbt build --select <model.sql> --vars '{'is_test_run': 'false'}'
