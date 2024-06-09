@@ -1,4 +1,5 @@
 keys/
 logs/
-files/ml-latest
+files/ml-latest/csv/*
+files/ml-latest/pq/*
 .env
