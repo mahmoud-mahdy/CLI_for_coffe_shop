@@ -11,6 +11,7 @@ where
     relevance is not null 
 )
 
+
 select
     cast(movieId as NUMERIC) as movieId,
     cast(tagId as NUMERIC) as tagId,

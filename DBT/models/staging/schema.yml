@@ -53,6 +53,7 @@ models:
               field: movieId
               to: ref('stg_movies')
 
+
       - name: imdbid
         data_type: numeric
         description: "Identifier for the movie used by IMDb.<http://www.imdb.com>"
