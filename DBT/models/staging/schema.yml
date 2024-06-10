@@ -13,6 +13,8 @@ sources:
       - name: movies_external_table
       - name: ratings_external_table
       - name: tags_external_table
+    freshness:
+      warn_after: { count: 31, period: day }
 
 models:
   - name: stg_ratings
