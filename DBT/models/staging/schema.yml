@@ -13,3 +13,104 @@ sources:
       - name: movies_external_table
       - name: ratings_external_table
       - name: tags_external_table
+
+models:
+  - name: stg_ratings
+    description: ""
+    columns:
+      - name: userid
+        data_type: numeric
+        description: ""
+        tests:
+          - not_null:
+              severity: warn
+          - relationships:
+              field: userId
+              to: ref('stg_ratings')
+
+      - name: movieid
+        data_type: numeric
+        description: ""
+
+      - name: rating
+        data_type: numeric
+        description: ""
+
+      - name: timestamp
+        data_type: timestamp
+        description: ""
+
+  - name: stg_links
+    description: ""
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: ""
+
+      - name: imdbid
+        data_type: numeric
+        description: ""
+
+      - name: tmdbid
+        data_type: numeric
+        description: ""
+
+  - name: stg_movies
+    description: ""
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: ""
+
+      - name: title
+        data_type: string
+        description: ""
+
+      - name: genres
+        data_type: string
+        description: ""
+
+  - name: stg_tags
+    description: ""
+    columns:
+      - name: userid
+        data_type: numeric
+        description: ""
+
+      - name: movieid
+        data_type: numeric
+        description: ""
+
+      - name: user_tag
+        data_type: string
+        description: ""
+
+      - name: timestamp
+        data_type: timestamp
+        description: ""
+
+  - name: stg_genome-tags
+    description: ""
+    columns:
+      - name: tagid
+        data_type: numeric
+        description: ""
+
+      - name: tag
+        data_type: string
+        description: ""
+
+  - name: stg_genome-scores
+    description: ""
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: ""
+
+      - name: tagid
+        data_type: numeric
+        description: ""
+
+      - name: relevance
+        data_type: numeric
+        description: ""
