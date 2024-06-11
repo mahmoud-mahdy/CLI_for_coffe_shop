@@ -1,8 +1,4 @@
-{{
-    config(
-        materialized='view'
-    )
-}}
+{{config(materialized='view')}}
 
 with links as
 (
@@ -25,6 +21,7 @@ from
     links
 where
     rn=1
+
 
 -- dbt build --select <model.sql> --vars '{'is_test_run': 'false'}''
 {% if var('is_test_run', default=true) %}

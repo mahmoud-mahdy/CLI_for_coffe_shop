@@ -17,15 +17,16 @@ where
 
 select
     cast(movieid as NUMERIC) as movieId,
-    cast(title as STRING) as title,
-    cast(genres as string) as genres
+    --spliting relase year from movie title
+    cast(REGEXP_REPLACE(title, '\\s*\\((\\d{4})\\)', '') as STRING) AS title,
+    cast(REGEXP_SUBSTR(title, '\\((\\d{4})\\)') as INT) AS movie_release_year,
+    cast(genres as STRING) as genres
 from
     movies
 where  
     rn = 1
 
-
--- dbt build --select <model.sql> --vars '{'is_test_run': 'false'}''
+-- dbt build --select <model.sql> --vars '{'is_test_run': 'false'}'
 {% if var('is_test_run', default=true) %}
 
   limit 100
