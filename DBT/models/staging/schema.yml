@@ -15,6 +15,7 @@ sources:
       - name: tags_external_table
     freshness:
       warn_after: { count: 360, period: day }
+      error_after: {count: 720, period: day}
 
 models:
   - name: stg_ratings
