@@ -75,8 +75,12 @@ models:
 
       - name: title
         data_type: string
-        description: "Title of the movie, including the year of release in parentheses."
+        description: "Title of the movie"
 
+      - name: movie_release_year
+        data_type: INT
+        description: "the year the movie released in"
+      
       - name: genres
         data_type: string
         description: "Pipe-separated list of genres the movie belongs to."
