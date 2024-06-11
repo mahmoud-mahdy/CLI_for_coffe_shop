@@ -17,6 +17,7 @@ sources:
       warn_after: { count: 360, period: day }
       error_after: {count: 720, period: day}
 
+
 models:
   - name: stg_ratings
     description: "Table containing movie ratings provided by users."
