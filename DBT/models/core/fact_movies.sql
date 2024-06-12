@@ -25,13 +25,13 @@ select *
 from {{ ref('stg_tags') }}
 )
 
-select rating.userId, rating.rating, movies.title, movie_release_year, movies.genres, rating.timestamp, tags.user_tag, 
+select rating.userId, rating.rating, movies.title as Movie_title, movie_release_year, movies.genres, Rating.timestamp as rating_time, tags.user_tag, 
 links.imdbid, links.tmdbid
 
-from rating
-inner join movies on rating.movieId = movies.movieId
-inner join links on movies.movieId = links.movieId
-inner join tags on rating.userId = tags.userId
 
+from rating
+left join movies on rating.movieId = movies.movieId
+left join links on movies.movieId = links.movieId
+left join tags on rating.userId = tags.userId
 
 -- dbt build --select <model.sql> --vars '{'is_test_run': 'false'}'
