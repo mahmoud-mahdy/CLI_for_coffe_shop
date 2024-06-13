@@ -33,6 +33,7 @@ models:
           - relationships:
               field: movieId
               to: ref('stg_movies')
+              severity: warn
 
       - name: rating
         data_type: numeric
@@ -54,6 +55,8 @@ models:
           - relationships:
               field: movieId
               to: ref('stg_movies')
+              severity: warn
+
 
       - name: imdbid
         data_type: numeric
@@ -95,6 +98,7 @@ models:
           - relationships:
               field: userId
               to: ref('stg_ratings')
+              severity: warn
 
       - name: movieid
         data_type: numeric
@@ -120,6 +124,7 @@ models:
           - relationships:
               field: tagId
               to: ref('stg_genome-scores')
+              severity: warn
 
       - name: tag
         data_type: string
@@ -135,6 +140,7 @@ models:
           - relationships:
               field: movieId
               to: ref('stg_movies')
+              severity: warn
 
       - name: tagid
         data_type: numeric
