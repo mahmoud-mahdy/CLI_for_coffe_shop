@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: fact_movies
+    description: >
+      aggrigated table of the four model stg_links, stg_movies, stg_ratings and stg_tags
+    columns:
+      - name: userid
+        data_type: numeric
+        description: "Unique identifier for the user"
+
+      - name: rating
+        data_type: numeric
+        description: "User's rating for the movie, on a scale from 0 to 5, in 0.5-point increments"
+
+      - name: title
+        data_type: string
+        description: "the movie title"
+
+      - name: genres
+        data_type: string
+        description: "all the movie genres given by the website"
+
+      - name: timestamp
+        data_type: timestamp
+        description: "the time of the rating given by the user"
+
+      - name: user_tag
+        data_type: string
+        description: "Unique identifier for the user"
+
+      - name: imdbid
+        data_type: numeric
+        description: "Identifier for the movie used by IMDb.<http://www.imdb.com>"
+
+      - name: tmdbid
+        data_type: numeric
+        description: "Identifier for the movie used by TMDb.<https://www.themoviedb.org>"
+
+  - name: tags_accuracy
+    description: >
+      tag accuracy table is Aggregated table of stg_genome-scores model and stg_genome-tags model 
+      and it shows how accurate the tags given to the movies by the user
+    columns:
+      - name: title
+        data_type: string
+        description: "the movie title"
+
+      - name: tag
+        data_type: string
+        description: "the tag given to the movie by the user"
+
+      - name: relevance
+        data_type: numeric
+        description: "how accurate is the tag given to the movie by the user"
