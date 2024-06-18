@@ -1,0 +1,151 @@
+version: 2
+
+
+sources:
+  - name: staging
+    database: cryptic-smile-413720
+    schema: MovieLens
+    
+    tables:
+      - name: genome-scores_external_table
+      - name: genome-tags_external_table
+      - name: links_external_table
+      - name: movies_external_table
+      - name: ratings_external_table
+      - name: tags_external_table
+    freshness:
+      warn_after: { count: 360, period: day }
+      error_after: {count: 720, period: day}
+
+
+models:
+  - name: stg_ratings
+    description: "Table containing movie ratings provided by users."
+    columns:
+      - name: userid
+        data_type: numeric
+        description: "Unique identifier for the user who provided the rating."
+
+      - name: movieid
+        data_type: numeric
+        description: "Unique identifier for the movie being rated."
+        tests:
+          - relationships:
+              field: movieId
+              to: ref('stg_movies')
+              severity: warn
+
+      - name: rating
+        data_type: numeric
+        description: "Rating given by the user for the movie, on a 5-star scale with half-star increments."
+
+      - name: timestamp
+        data_type: timestamp
+        description: "Timestamp indicating when the rating was provided, represented in seconds since midnight Coordinated Universal Time (UTC) of January 1, 1970."
+
+  - name: stg_links
+    description: "Table containing identifiers for linking to other sources of movie data."
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: "Unique identifier for the movie, consistent with other data files."
+        tests:
+          - unique:
+              severity: warn
+          - relationships:
+              field: movieId
+              to: ref('stg_movies')
+              severity: warn
+
+
+      - name: imdbid
+        data_type: numeric
+        description: "Identifier for the movie used by IMDb.<http://www.imdb.com>"
+
+      - name: tmdbid
+        data_type: numeric
+        description: "Identifier for the movie used by TMDb.<https://www.themoviedb.org>"
+
+  - name: stg_movies
+    description: "Table containing information about movies."
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: "Unique identifier for the movie."
+        tests:
+          - unique:
+              severity: warn
+
+      - name: title
+        data_type: string
+        description: "Title of the movie"
+
+      - name: movie_release_year
+        data_type: INT
+        description: "the year the movie released in"
+      
+      - name: genres
+        data_type: string
+        description: "Pipe-separated list of genres the movie belongs to."
+
+  - name: stg_tags
+    description: "Table containing user-generated tags for movies."
+    columns:
+      - name: userid
+        data_type: numeric
+        description: "Unique identifier for the user who applied the tag."
+        tests:
+          - relationships:
+              field: userId
+              to: ref('stg_ratings')
+              severity: warn
+
+      - name: movieid
+        data_type: numeric
+        description: "Unique identifier for the movie the tag is applied to."
+
+      - name: user_tag
+        data_type: string
+        description: "User-generated tag applied to the movie."
+
+      - name: timestamp
+        data_type: timestamp
+        description: "Timestamp indicating when the tag was applied, represented in seconds since midnight Coordinated Universal Time (UTC) of January 1, 1970."
+
+  - name: stg_genome-tags
+    description: "Table containing tag descriptions for the tag IDs in the tag genome."
+    columns:
+      - name: tagid
+        data_type: numeric
+        description: "Unique identifier for the tag."
+        tests:
+          - unique:
+              severity: warn
+          - relationships:
+              field: tagId
+              to: ref('stg_genome-scores')
+              severity: warn
+
+      - name: tag
+        data_type: string
+        description: "Description of the tag."
+
+  - name: stg_genome-scores
+    description: "Table containing movie-tag relevance data from the tag genome."
+    columns:
+      - name: movieid
+        data_type: numeric
+        description: "Unique identifier for the movie."
+        tests:
+          - relationships:
+              field: movieId
+              to: ref('stg_movies')
+              severity: warn
+
+      - name: tagid
+        data_type: numeric
+        description: "Unique identifier for the tag, consistent with the tag genome."
+
+      - name: relevance
+        data_type: numeric
+        description: "Relevance score indicating how strongly the movie exhibits the particular property represented by the tag."
