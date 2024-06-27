@@ -12,6 +12,7 @@
   - [Project architecture](#project-architecture)
   - [Dashboard](#dashboard)
   - [Replication instruction:](#replication-instruction)
+      - [go to the folder of the project created and so and so (on progress)](#go-to-the-folder-of-the-project-created-and-so-and-so-on-progress)
 
 ## Overview
 This project is based on [Data Engineering Zoomcamp](https://github.com/DataTalksClub/data-engineering-zoomcamp) course held by [DataTalks.Club](https://datatalks.club/) with the goal of implementing everything tought in the course and build an end-to-end data pipeline.
@@ -91,5 +92,4 @@ git config core.sparseCheckout true
 echo "MovieLens_data_pipeline" >> .git/info/sparse-checkout
 git pull origin main
 ```
-go to the folder of the project created and so and so
-on progress
+#### go to the folder of the project created and so and so (on progress)
