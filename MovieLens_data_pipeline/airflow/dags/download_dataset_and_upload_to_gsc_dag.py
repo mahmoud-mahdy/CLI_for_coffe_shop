@@ -15,14 +15,7 @@ from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesyste
 
 
 URL = 'https://files.grouplens.org/datasets/movielens/ml-latest.zip'
-file_name = 'movielens-latest.zip'
-
-def unzip_file(file_name, extract_to):
-    with zipfile.ZipFile(file_name, 'r') as zip_ref:
-        zip_ref.extractall(extract_to)
-        print("Unzipped")
-    os.remove(file_name)
-    print("Removed zip file")
+file_name = 'ml-latest.zip'
 
 
 def format_to_parquet(dir):
@@ -61,16 +54,11 @@ with DAG(dag_id='download_dataset_and_upload_to_gsc_dag',
     )
     
     
-    unzip_dataset_task = PythonOperator(
+    unzip_dataset_task = BashOperator(
         task_id="unzip_dataset",
+        bash_command=f'unzip -o /opt/airflow/files/{file_name} -d /opt/airflow/files; rm /opt/airflow/files/{file_name}; echo "Unzipped {file_name}";',
         depends_on_past=True,
         execution_timeout=timedelta(minutes=2),
-        python_callable=unzip_file,
-        op_kwargs={
-            'file_name': f'/opt/airflow/files/{file_name}',
-            'extract_to': f'/opt/airflow/files/',
-        }
-        
     )
     
     

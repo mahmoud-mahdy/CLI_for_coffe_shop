@@ -6,15 +6,16 @@ USER root
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-         vim \
          unzip \
+         tree \
   && apt-get autoremove -yqq --purge \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-USER airflow
+SHELL ["/bin/bash", "-o", "pipefail", "-e", "-u", "-x", "-c"]
+
+USER AIRFLOW
 
 COPY requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-
+RUN pip install --no-cache-dir -r /tmp/requirements.txt instead if you want to save space
