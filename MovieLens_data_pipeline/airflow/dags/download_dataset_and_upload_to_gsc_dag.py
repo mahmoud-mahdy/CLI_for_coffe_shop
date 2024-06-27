@@ -46,10 +46,11 @@ with DAG(dag_id='download_dataset_and_upload_to_gsc_dag',
 ) as dag:
 
 
-    
+# This is a BashOperator task that downloads the movielens dataset latest full version
     download_dataset_task = BashOperator(
         task_id="download_dataset",
         execution_timeout=timedelta(minutes=5),
+        # The `-sSL` options are used to download the file in silent mode and follow any redirects.
         bash_command=f'curl -sSL {URL} > /opt/airflow/files/{file_name}; echo "Downloaded {file_name}";',
     )
     

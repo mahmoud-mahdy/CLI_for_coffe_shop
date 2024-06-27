@@ -1,7 +1,6 @@
 keys/
 logs/
-airflow/files/ml-latest/csv/*
-airflow/files/ml-latest/pq/*
+airflow/files/
 .env
 __pycache__
 
