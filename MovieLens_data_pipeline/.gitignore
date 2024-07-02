@@ -1,6 +1,6 @@
 keys/
 logs/
-airflow/files/
+files/
 .env
 __pycache__
-
+.vscode

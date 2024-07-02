@@ -78,7 +78,7 @@ The end-to-end batch pipeline as shown in the diagram below:
 
 The Dashboard can be accessed in the using the following link: [Dashboard](https://lookerstudio.google.com/reporting/a937b3d1-6f12-4857-827d-347ab817960d)
 
-Note: Most accurate tags table take more time than the rest please be patient. It has to go through more data than the reset.
+Note: Most accurate tags table take more time please be patient. It has to go through more data than the reset.
 
 ![dashboard](Images/dashboard.png)
 

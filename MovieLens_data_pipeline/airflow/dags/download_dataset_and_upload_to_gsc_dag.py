@@ -1,7 +1,7 @@
 import os
+from dotenv import load_dotenv
 import logging
 import shutil
-import zipfile
 from datetime import timedelta
 
 import pyarrow.csv as pv
@@ -13,7 +13,9 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
 
+load_dotenv()
 
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
 URL = 'https://files.grouplens.org/datasets/movielens/ml-latest.zip'
 file_name = 'ml-latest.zip'
 
@@ -74,33 +76,24 @@ with DAG(dag_id='download_dataset_and_upload_to_gsc_dag',
     )
     
     # upload pq files to GCS
-    pq_files = []
-    try:
-        pq_files = [file for file in os.listdir('/opt/airflow/files/ml-latest/pq') if file.endswith('.parquet')]
-    except FileNotFoundError:
-        logging.warning("'/opt/airflow/files/ml-latest/pq' directory not found. Skipping upload to GCS.")
-        
     upload_tasks = []
-    for file in pq_files:
-        src = f'/opt/airflow/files/ml-latest/pq/{file}'
-        if os.path.exists(src):
-            upload_to_gsc_task  = LocalFilesystemToGCSOperator(
-            task_id=f'upload_{file}_to_gcs',
-            depends_on_past=True,
-            execution_timeout=timedelta(minutes=5),
-            src=src,
-            dst=f'pq/{file}',
-            bucket='data_lake_231',
-            gcp_conn_id='gcloud',
-            )
-            
-            upload_tasks.append(upload_to_gsc_task)
+    for file in os.listdir('/opt/airflow/files/ml-latest/pq'):
+        if file.endswith('.parquet'):
+            src = f'/opt/airflow/files/ml-latest/pq/{file}'
+            if os.path.exists(src):
+                upload_to_gsc_task  = LocalFilesystemToGCSOperator(
+                task_id=f'upload_{file}_to_gcs',
+                depends_on_past=True,
+                execution_timeout=timedelta(minutes=5),
+                src=src,
+                dst=f'pq/{file}',
+                bucket=BUCKET_NAME,
+                gcp_conn_id='gcloud',
+                )
+                upload_tasks.append(upload_to_gsc_task)
         else:
             logging.warning(f'File {src} not found. Skipping upload.')
             continue
         
-        
     download_dataset_task >> unzip_dataset_task >> format_to_parquet_task >> upload_tasks
-
-
     

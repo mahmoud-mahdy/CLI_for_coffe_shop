@@ -16,13 +16,29 @@ provider "google" {
 
 # Data Lake
 resource "google_storage_bucket" "data-lake-bucket" {
-  name     = "${var.bucket_name}_${var.project_ID}" # Concatenating DL bucket & Project name for unique naming
+  name     = "${var.bucket_name}-${var.project_ID}" # Concatenating DL bucket & Project name for unique naming
   location = var.region
   versioning {
     enabled = false
   }
   force_destroy = true
-  storage_class = "NEARLINE"
+  storage_class = "STANDARD"
+  lifecycle_rule {
+    condition {
+      age = 10  # days
+    }
+    action {
+      type = "Delete"
+    }
+  }
+}
+
+# prefix for bq files
+resource "google_storage_bucket_object" "folder_pq" {
+  name   = "pq/"  # Create a folder named "pq"
+  bucket = "${var.bucket_name}-${var.project_ID}"
+  content = " "
+  depends_on = [google_storage_bucket.data-lake-bucket]
 }
 
 # Data Warehouse
@@ -30,6 +46,8 @@ resource "google_bigquery_dataset" "dataset" {
   dataset_id = var.dataset_name
   project    = var.project_ID
   location   = var.region
+  delete_contents_on_destroy = true
+  default_table_expiration_ms = 86400000   # 10 days
 }
 
 resource "google_bigquery_dataset" "development_dataset" {
@@ -44,4 +62,4 @@ resource "google_bigquery_dataset" "prod_dataset" {
   project                    = var.project_ID
   location                   = var.region
   delete_contents_on_destroy = true
-}
+  }
