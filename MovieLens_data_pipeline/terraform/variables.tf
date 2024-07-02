@@ -1,6 +1,7 @@
 variable "credentials" {
   description = "Path to service account json file"
-  default     = "C:\\Users\\ellat\\OneDrive\\Desktop\\zoom_camp_data_engineer\\movielens_data_pipeline\\airflow\\keys\\cryptic-smile-413720-2de135123ee1.json"
+  # write the path to your service account json file
+  default     = "C:\\Users\\ellat\\OneDrive\\Desktop\\zoom_camp_data_engineer\\My_Portfolio\\MovieLens_data_pipeline\\airflow\\keys\\cryptic-smile-413720-dcbab48aa81f.json"
 }
 
 variable "project_ID" {
@@ -15,7 +16,7 @@ variable "region" {
 
 variable "bucket_name" {
   description = "The name of the bucket"
-  default     = "movielens-bucket-cryptic-smile-413720"
+  default     = "movielens-bucket"
 }
 
 variable "dataset_name" {
