@@ -16,7 +16,7 @@
       - [instructions:](#instructions)
         - [Cloning and setting up the project:](#cloning-and-setting-up-the-project)
         - [Terraform:](#terraform)
-        - [Enviroment variables:](#enviroment-variables)
+        - [Environment variables:](#environment-variables)
         - [Airflow:](#airflow)
         - [DBT (data build tool):](#dbt-data-build-tool)
         - [Looker Studio](#looker-studio)
@@ -65,7 +65,7 @@ The project uses the following technologies:
 
 ## Project architecture
 The end-to-end batch pipeline as shown in the diagram below:
-* Download the data from URL and trasform it from csv to parquet.
+* Download the data from URL and transform it from csv to parquet.
 * Load the data into GCS (data lake)
 * Load the data from GCS into BigQuery (DWH)
 * Transform the data using DBT(Data Build Tool) in the BigQuery
@@ -131,7 +131,7 @@ Type yes if promoted to confirm the above command.
 
 Go to your Google Cloud account and get the bucket name created it should be <bucket_name>_<project_id>
 
-##### Enviroment variables:
+##### Environment variables:
 please open up the [.env_example](.env_example) and fill it with your values PROJECT_ID, BUCKET_NAME
 
 start new terminal in main directory
@@ -153,7 +153,7 @@ Please be patient as it can take up to 10 minutes depending on your pc and inter
 when finished open http://localhost:8080/ in your browser username ```airflow``` password ```airflow```
 
 open ```admin``` then ```connection``` then make new connection called ```gcloud```
-and write the path to the service account key downloaded erlier.
+and write the path to the service account key downloaded earlier.
 ```/opt/airflow/keys/<service_account.json```
 
 replace ```<service_account.json>``` with your key name
@@ -183,7 +183,7 @@ dbt test
 ```
 check ```generate docs``` and ```source freshness``` both are already set to work in the code.
 
-Sidenote: when running any query it will be limited to only 100 results this has been set to make the development faster therefore in production we remove the limit using ```'{'is_test_run': 'false'}'```  
+Note: when running any query it will be limited to only 100 results this has been set to make the development faster therefore in production we remove the limit using ```'{'is_test_run': 'false'}'```  
 
 ```dbt test``` will run all the tests sets and source freshness will run automatically in the beginning.
 
