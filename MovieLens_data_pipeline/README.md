@@ -11,6 +11,7 @@
   - [Technologies](#technologies)
   - [Project architecture](#project-architecture)
   - [Dashboard](#dashboard)
+      - [More details about the project are available in each folder readme file](#more-details-about-the-project-are-available-in-each-folder-readme-file)
   - [Replication :](#replication-)
       - [Prerequisites (things you will need to have before):](#prerequisites-things-you-will-need-to-have-before)
       - [instructions:](#instructions)
@@ -86,6 +87,8 @@ Controls have been added making the dashboard interactive. Filters can be added 
 
 Most valuable users to the websites as they made the most contributions, most accurate tags given by user compared to the tags given by the website using machine learning model
 
+#### More details about the project are available in each folder readme file
+
 ## Replication :
 
 #### Prerequisites (things you will need to have before):
@@ -130,6 +133,8 @@ terraform apply
 Type yes if promoted to confirm the above command.
 
 Go to your Google Cloud account and get the bucket name created it should be <bucket_name>_<project_id>
+
+if you would like to destroy all resources at the end of the project please run in terminal ```terraform destroy```
 
 ##### Environment variables:
 please open up the [.env_example](.env_example) and fill it with your values PROJECT_ID, BUCKET_NAME
