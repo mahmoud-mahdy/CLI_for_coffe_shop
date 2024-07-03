@@ -150,8 +150,7 @@ Start a new terminal in the cloned repo directory
 Please make sure the docker is already running.
 ```
 cd airflow
-docker-compose up airflow-init -d
-docker-compose up -d
+docker-compose up -d --build
 ```
 Please be patient as it can take up to 10 minutes depending on your pc and internet speed.
 
