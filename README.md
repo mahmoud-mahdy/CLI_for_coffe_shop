@@ -3,5 +3,5 @@
 * AWS_Pipeline
 * CLI_coffe_shop
 * Machine learning predictive model
-* sodoku_solver
+* Sodoku_solver
 * Mini-Games
