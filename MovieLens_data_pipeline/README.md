@@ -72,7 +72,6 @@ The end-to-end batch pipeline as shown in the diagram below:
 * Transform the data using DBT(Data Build Tool) in the BigQuery
 * Load the data from BigQuery to Looker Studio
 
-
 ![project_architect](Images/project_architect.png)
 
 ## Dashboard
