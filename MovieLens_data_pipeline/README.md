@@ -25,8 +25,6 @@
 ## Overview
 A batched end-to-end data pipeline for movies data. the pipeline gets the data from [MovieLens](https://movielens.org/) website and sends it to Google Cloud storage then to bigquery then to DBT (data build tool) where the data transformation then to the dashboard in Looker Studio to be visualised.
 
-This project is based on [Data Engineering Zoomcamp](https://github.com/DataTalksClub/data-engineering-zoomcamp) course held by [DataTalks.Club](https://datatalks.club/) to implement everything taught in the course and build an end-to-end data pipeline.
-
 ## Problem description
 Using the data to answer some key questions such as what are the most rated movies on the website? How accurate are tags given by users to the movies? Who are the most valuable users of the websites? 
 
