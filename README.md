@@ -2,6 +2,6 @@
 * MovieLens_data_pipeline
 * AWS_Pipeline
 * CLI_coffe_shop
-* Machine learning predictive model
+* Machine learning predictive models
 * Sodoku_solver
 * Mini-Games
